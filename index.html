@@ -1432,5 +1432,52 @@
   startSlideshow();
 
 </script>
+
+<script>
+// サイト文言をJSONから動的に読み込む
+fetch('/content/settings/site.json')
+  .then(r => r.json())
+  .then(d => {
+    const set = (sel, key, attr) => {
+      const el = document.querySelector(sel);
+      if (!el || !d[key]) return;
+      if (attr) el.setAttribute(attr, d[key]);
+      else el.textContent = d[key];
+    };
+    // Hero
+    set('.hero-eyebrow', 'hero_eyebrow');
+    set('.hero-subtitle', 'hero_title_ja');
+    set('.hero-desc', 'hero_description');
+    set('.btn-primary', 'hero_btn_primary');
+    // Vision
+    set('.vision-quote', 'vision_quote');
+    // CTA
+    set('.cta-heading', 'cta_heading');
+    set('.cta-sub', 'cta_sub');
+    // Footer
+    set('.footer-tagline', 'footer_tagline');
+    set('.footer-copy', 'footer_copyright');
+    // Problems
+    const pTitles = document.querySelectorAll('.problem-title');
+    const pBodies = document.querySelectorAll('.problem-body');
+    ['problem1','problem2','problem3'].forEach((k,i) => {
+      if (pTitles[i]) pTitles[i].textContent = d[k+'_title'] || pTitles[i].textContent;
+      if (pBodies[i]) pBodies[i].textContent = d[k+'_body'] || pBodies[i].textContent;
+    });
+    // Pillars
+    const pillarTitles = document.querySelectorAll('.pillar-title');
+    const pillarBodies = document.querySelectorAll('.pillar-body');
+    ['pillar1','pillar2','pillar3'].forEach((k,i) => {
+      if (pillarTitles[i]) pillarTitles[i].textContent = d[k+'_title'] || pillarTitles[i].textContent;
+      if (pillarBodies[i]) pillarBodies[i].textContent = d[k+'_body'] || pillarBodies[i].textContent;
+    });
+    // Answer
+    const ah = document.querySelector('.answer-heading');
+    if (ah && d.answer_heading) ah.innerHTML = d.answer_heading.replace('Craft Valley', '<em>Craft Valley</em>');
+    set('.answer-sub', 'answer_sub');
+  })
+  .catch(() => {}); // JSONがない場合はHTMLのデフォルト文言を使用
+</script>
+
 </body>
 </html>

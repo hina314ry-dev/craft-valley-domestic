@@ -1,55 +1,119 @@
 backend:
-  name: git-gateway          # NetlifyのGit Gateway経由で認証
-  branch: main               # 更新するブランチ名
+  name: git-gateway
+  branch: main
 
-media_folder: "images"       # 写真のアップロード先フォルダ
-public_folder: "/images"     # HTML内での写真参照パス
+media_folder: "images"
+public_folder: "/images"
 
-# ────────────── コレクション定義 ──────────────
 collections:
 
-  # ① ニュース・記事
+  # ① サイト文言設定（File collections）
+  - name: "settings"
+    label: "📝 サイト文言設定"
+    files:
+      - name: "site"
+        label: "サイト全体の文言"
+        file: "content/settings/site.json"
+        fields:
+          - label: "── ヒーローセクション ──"
+            name: "hero_section_label"
+            widget: "hidden"
+            default: ""
+          - { label: "上部タグライン", name: "hero_eyebrow", widget: "string" }
+          - { label: "英語キャッチコピー", name: "hero_title_en", widget: "string" }
+          - { label: "日本語サブタイトル", name: "hero_title_ja", widget: "string" }
+          - { label: "説明文", name: "hero_description", widget: "text" }
+          - { label: "メインボタン", name: "hero_btn_primary", widget: "string" }
+          - { label: "サブリンク", name: "hero_btn_secondary", widget: "string" }
+
+          - label: "── ビジョンセクション ──"
+            name: "vision_section_label"
+            widget: "hidden"
+            default: ""
+          - { label: "ビジョン大見出し", name: "vision_quote", widget: "text" }
+          - { label: "本文①", name: "vision_p1", widget: "text" }
+          - { label: "本文②", name: "vision_p2", widget: "text" }
+          - { label: "本文③", name: "vision_p3", widget: "text" }
+
+          - label: "── 課題セクション ──"
+            name: "problem_section_label"
+            widget: "hidden"
+            default: ""
+          - { label: "課題①タイトル", name: "problem1_title", widget: "string" }
+          - { label: "課題①説明", name: "problem1_body", widget: "text" }
+          - { label: "課題②タイトル", name: "problem2_title", widget: "string" }
+          - { label: "課題②説明", name: "problem2_body", widget: "text" }
+          - { label: "課題③タイトル", name: "problem3_title", widget: "string" }
+          - { label: "課題③説明", name: "problem3_body", widget: "text" }
+
+          - label: "── Our Answerセクション ──"
+            name: "answer_section_label"
+            widget: "hidden"
+            default: ""
+          - { label: "見出し", name: "answer_heading", widget: "string" }
+          - { label: "説明文", name: "answer_sub", widget: "text" }
+          - { label: "柱①タイトル", name: "pillar1_title", widget: "string" }
+          - { label: "柱①説明", name: "pillar1_body", widget: "text" }
+          - { label: "柱②タイトル", name: "pillar2_title", widget: "string" }
+          - { label: "柱②説明", name: "pillar2_body", widget: "text" }
+          - { label: "柱③タイトル", name: "pillar3_title", widget: "string" }
+          - { label: "柱③説明", name: "pillar3_body", widget: "text" }
+
+          - label: "── CTAセクション ──"
+            name: "cta_section_label"
+            widget: "hidden"
+            default: ""
+          - { label: "CTA見出し", name: "cta_heading", widget: "text" }
+          - { label: "CTA説明文", name: "cta_sub", widget: "text" }
+
+          - label: "── フッター ──"
+            name: "footer_section_label"
+            widget: "hidden"
+            default: ""
+          - { label: "フッターキャッチ", name: "footer_tagline", widget: "string" }
+          - { label: "コピーライト", name: "footer_copyright", widget: "string" }
+
+  # ② ニュース・記事
   - name: "news"
-    label: "ニュース・記事"
+    label: "📰 ニュース・記事"
     folder: "content/news"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
-      - { label: "タイトル",     name: "title",    widget: "string" }
-      - { label: "日付",         name: "date",     widget: "datetime" }
-      - { label: "カテゴリ",     name: "category", widget: "select",
-          options: ["展示会", "マルシェ", "メディア掲載", "連携・協定", "お知らせ"] }
-      - { label: "サムネイル",   name: "image",    widget: "image", required: false }
-      - { label: "本文",         name: "body",     widget: "markdown" }
-      - { label: "公開",         name: "published", widget: "boolean", default: true }
+      - { label: "タイトル",   name: "title",    widget: "string" }
+      - { label: "日付",       name: "date",     widget: "datetime" }
+      - { label: "カテゴリ",   name: "category", widget: "select",
+          options: ["展示会","マルシェ","メディア掲載","連携・協定","お知らせ"] }
+      - { label: "サムネイル", name: "image",    widget: "image", required: false }
+      - { label: "本文",       name: "body",     widget: "markdown" }
+      - { label: "公開",       name: "published", widget: "boolean", default: true }
 
-  # ② メンバー
+  # ③ メンバー
   - name: "members"
-    label: "メンバー"
+    label: "👥 メンバー"
     folder: "content/members"
     create: true
     slug: "{{slug}}"
     fields:
-      - { label: "氏名",         name: "title",  widget: "string" }
-      - { label: "役職・肩書き", name: "role",   widget: "string" }
-      - { label: "専門・工芸",   name: "craft",  widget: "string" }
-      - { label: "プロフィール写真", name: "image", widget: "image" }
-      - { label: "紹介文",       name: "bio",    widget: "text", required: false }
-      - { label: "表示順",       name: "order",  widget: "number", default: 99 }
-      - { label: "掲載中",       name: "active", widget: "boolean", default: true }
+      - { label: "氏名",       name: "title",  widget: "string" }
+      - { label: "役職",       name: "role",   widget: "string" }
+      - { label: "専門・工芸", name: "craft",  widget: "string" }
+      - { label: "写真",       name: "image",  widget: "image" }
+      - { label: "紹介文",     name: "bio",    widget: "text", required: false }
+      - { label: "表示順",     name: "order",  widget: "number", default: 99 }
+      - { label: "掲載中",     name: "active", widget: "boolean", default: true }
 
-  # ③ 活動・実績
+  # ④ 活動・実績
   - name: "activities"
-    label: "活動・実績"
+    label: "🗂 活動・実績"
     folder: "content/activities"
     create: true
     slug: "{{year}}-{{slug}}"
     fields:
       - { label: "タイトル",   name: "title",    widget: "string" }
-      - { label: "時期",       name: "date",     widget: "string",
-          hint: "例：2025.03" }
+      - { label: "時期",       name: "date",     widget: "string" }
       - { label: "種別",       name: "type",     widget: "select",
-          options: ["展示会", "イベント", "連携", "メディア掲載"] }
+          options: ["展示会","イベント","連携","メディア掲載"] }
       - { label: "サムネイル", name: "image",    widget: "image", required: false }
       - { label: "説明文",     name: "body",     widget: "text" }
       - { label: "注目記事",   name: "featured", widget: "boolean", default: false }
