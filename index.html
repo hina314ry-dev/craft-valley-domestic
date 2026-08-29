@@ -1220,42 +1220,7 @@
       </div>
       <a href="#" class="link-more reveal">全員を見る →</a>
     </div>
-    <div class="members-grid">
-            <div class="member-card reveal reveal-delay-1">
-        <div class="member-bg" style="background-image: url('/images/member1.webp'); background-size: cover; background-position: center top;"></div>
-        <div class="member-card-inner">
-          <div class="member-role">Founder / Director</div>
-          <div class="member-name">堀口 正裕</div>
-          <div class="member-craft">プロジェクト代表</div>
-        </div>
-      </div>
-            <div class="member-card reveal reveal-delay-2">
-        <div class="member-bg" style="background-image: url('/images/member2.jpg'); background-size: cover; background-position: center top;"></div>
-        <div class="member-card-inner">
-          <div class="member-role">Co-Founder / Producer</div>
-          <div class="member-name">桝本 博之</div>
-          <div class="member-craft">海外展開・プロデューサー</div>
-        </div>
-      </div>
-      <div class="member-card reveal reveal-delay-3">
-        <div class="member-bg" style="background: #2a3d2e;"></div>
-        <div class="member-bg-pattern"></div>
-        <div class="member-card-inner">
-          <div class="member-role">Artisan / Ceramics</div>
-          <div class="member-name">中村 健一</div>
-          <div class="member-craft">越中 · 陶芸家</div>
-        </div>
-      </div>
-      <div class="member-card reveal reveal-delay-4">
-        <div class="member-bg" style="background: #1e2e3d;"></div>
-        <div class="member-bg-pattern"></div>
-        <div class="member-card-inner">
-          <div class="member-role">Partner / Export</div>
-          <div class="member-name">田中 美咲</div>
-          <div class="member-craft">能登 · 海外展開担当</div>
-        </div>
-      </div>
-    </div>
+    <div class="members-grid" id="members-grid"><div class="member-skeleton"></div></div>
   </div>
 </section>
 
@@ -1269,48 +1234,7 @@
       </div>
       <a href="#" class="link-more reveal">すべての活動を見る →</a>
     </div>
-    <div class="activities-grid">
-      <div class="activity-card featured reveal">
-        <div class="activity-thumb">
-          <div class="activity-thumb-pattern"></div>
-          <div class="activity-thumb-label">Featured</div>
-        </div>
-        <div class="activity-content">
-          <div class="activity-date">2025.03 · 展示会</div>
-          <div class="activity-title">ミラノ・デザインウィーク2025 出展報告</div>
-          <p class="activity-body">飛騨の漆器・越中の和紙をミラノの会場で展示。3日間で約2,000名が来場し、複数のバイヤーと商談を実現。飛能越の工芸が初めて欧州の主要デザインフェアに登場した歴史的な出展となりました。</p>
-        </div>
-      </div>
-      <div class="activity-card reveal reveal-delay-1">
-        <div class="activity-thumb" style="height: 140px;">
-          <div class="activity-thumb-pattern" style="background-color: #3d2a18;"></div>
-          <div class="activity-thumb-label">Event</div>
-        </div>
-        <div class="activity-content">
-          <div class="activity-date">2025.01 · マルシェ</div>
-          <div class="activity-title">飛能越クラフトマルシェ 第3回開催</div>
-          <p class="activity-body">3地域から20の工房が集結。2日間で来場者1,200名。</p>
-        </div>
-      </div>
-      <div class="activity-card reveal reveal-delay-2">
-        <div class="activity-thumb" style="height: 140px;">
-          <div class="activity-thumb-pattern" style="background-color: #2a3d30;"></div>
-          <div class="activity-thumb-label">Partnership</div>
-        </div>
-        <div class="activity-content">
-          <div class="activity-date">2024.11 · 連携</div>
-          <div class="activity-title">能登復興プロジェクトとの連携協定を締結</div>
-          <p class="activity-body">能登地域の工芸産業復興を支援する協定を締結し、販路拡大と職人支援を開始。</p>
-        </div>
-      </div>
-      <div class="activity-card reveal reveal-delay-3" style="grid-column: 2 / 4;">
-        <div class="activity-content" style="padding: 1.5rem 2rem;">
-          <div class="activity-date">2024.09 · メディア掲載</div>
-          <div class="activity-title">NHK・日経MJ等 複数メディアに掲載</div>
-          <p class="activity-body">NHKニュースおはよう日本、日経MJ（流通新聞）、Forbes Japan オンライン版に掲載。国内外での認知が拡大しています。</p>
-        </div>
-      </div>
-    </div>
+    <div class="activities-grid" id="activities-grid"><div class="activity-skeleton"></div></div>
   </div>
 </section>
 
@@ -1434,49 +1358,151 @@
 </script>
 
 <script>
-// サイト文言をJSONから動的に読み込む
-fetch('/content/settings/site.json')
-  .then(r => r.json())
-  .then(d => {
-    const set = (sel, key, attr) => {
-      const el = document.querySelector(sel);
-      if (!el || !d[key]) return;
-      if (attr) el.setAttribute(attr, d[key]);
-      else el.textContent = d[key];
-    };
-    // Hero
-    set('.hero-eyebrow', 'hero_eyebrow');
-    set('.hero-subtitle', 'hero_title_ja');
-    set('.hero-desc', 'hero_description');
-    set('.btn-primary', 'hero_btn_primary');
-    // Vision
-    set('.vision-quote', 'vision_quote');
-    // CTA
-    set('.cta-heading', 'cta_heading');
-    set('.cta-sub', 'cta_sub');
-    // Footer
-    set('.footer-tagline', 'footer_tagline');
-    set('.footer-copy', 'footer_copyright');
-    // Problems
-    const pTitles = document.querySelectorAll('.problem-title');
-    const pBodies = document.querySelectorAll('.problem-body');
-    ['problem1','problem2','problem3'].forEach((k,i) => {
-      if (pTitles[i]) pTitles[i].textContent = d[k+'_title'] || pTitles[i].textContent;
-      if (pBodies[i]) pBodies[i].textContent = d[k+'_body'] || pBodies[i].textContent;
+// ── 設定（リポジトリ情報） ───────────────────────────────────
+const GITHUB = {
+  owner: 'hina314ry-dev',
+  repo:  'craft-valley-domestic',
+  branch: 'main',
+  api: 'https://api.github.com/repos/hina314ry-dev/craft-valley-domestic/contents',
+  raw: 'https://raw.githubusercontent.com/hina314ry-dev/craft-valley-domestic/main',
+};
+
+// ── ユーティリティ ───────────────────────────────────────────
+const fetchJSON = url => fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
+
+// フォルダ内のJSONファイル一覧をGitHub APIで取得→内容を取得
+async function fetchFolder(folder) {
+  const files = await fetchJSON(`${GITHUB.api}/${folder}?ref=${GITHUB.branch}`);
+  if (!files || !Array.isArray(files)) return [];
+  const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+  const contents = await Promise.all(
+    jsonFiles.map(f => fetchJSON(`${GITHUB.raw}/${folder}/${f.name}`))
+  );
+  return contents.filter(Boolean);
+}
+
+// ── スライドショー ───────────────────────────────────────────
+fetchJSON(`${GITHUB.raw}/content/settings/slides.json`).then(data => {
+  if (!data?.slides) return;
+  const container = document.querySelector('.hero-slides');
+  if (!container) return;
+  container.innerHTML = data.slides.map((s, i) =>
+    `<div class="hero-slide${i===0?' active':''}" style="background-image:url('${s.image}');background-size:cover;background-position:center;"></div>`
+  ).join('');
+  const dotsEl = document.querySelector('.slide-indicators');
+  if (dotsEl) {
+    dotsEl.innerHTML = data.slides.map((_, i) =>
+      `<button class="slide-dot${i===0?' active':''}" data-index="${i}"></button>`
+    ).join('');
+    dotsEl.querySelectorAll('.slide-dot').forEach(dot => {
+      dot.addEventListener('click', () => {
+        clearInterval(window._slideInterval);
+        goToSlide(parseInt(dot.dataset.index));
+        startSlideshow();
+      });
     });
-    // Pillars
-    const pillarTitles = document.querySelectorAll('.pillar-title');
-    const pillarBodies = document.querySelectorAll('.pillar-body');
-    ['pillar1','pillar2','pillar3'].forEach((k,i) => {
-      if (pillarTitles[i]) pillarTitles[i].textContent = d[k+'_title'] || pillarTitles[i].textContent;
-      if (pillarBodies[i]) pillarBodies[i].textContent = d[k+'_body'] || pillarBodies[i].textContent;
-    });
-    // Answer
-    const ah = document.querySelector('.answer-heading');
-    if (ah && d.answer_heading) ah.innerHTML = d.answer_heading.replace('Craft Valley', '<em>Craft Valley</em>');
-    set('.answer-sub', 'answer_sub');
-  })
-  .catch(() => {}); // JSONがない場合はHTMLのデフォルト文言を使用
+  }
+});
+
+// ── サイト文言 ───────────────────────────────────────────────
+fetchJSON(`${GITHUB.raw}/content/settings/site.json`).then(d => {
+  if (!d) return;
+  const set = (sel, key) => {
+    const el = document.querySelector(sel);
+    if (el && d[key]) el.textContent = d[key];
+  };
+  set('.hero-eyebrow', 'hero_eyebrow');
+  set('.hero-subtitle', 'hero_title_ja');
+  set('.hero-desc', 'hero_description');
+  set('.btn-primary', 'hero_btn_primary');
+  set('.vision-quote', 'vision_quote');
+  set('.cta-sub', 'cta_sub');
+  set('.footer-tagline', 'footer_tagline');
+  set('.footer-copy', 'footer_copyright');
+  const pTitles = document.querySelectorAll('.problem-title');
+  const pBodies = document.querySelectorAll('.problem-body');
+  ['problem1','problem2','problem3'].forEach((k,i) => {
+    if (pTitles[i] && d[k+'_title']) pTitles[i].textContent = d[k+'_title'];
+    if (pBodies[i] && d[k+'_body']) pBodies[i].textContent = d[k+'_body'];
+  });
+  const pTitles2 = document.querySelectorAll('.pillar-title');
+  const pBodies2 = document.querySelectorAll('.pillar-body');
+  ['pillar1','pillar2','pillar3'].forEach((k,i) => {
+    if (pTitles2[i] && d[k+'_title']) pTitles2[i].textContent = d[k+'_title'];
+    if (pBodies2[i] && d[k+'_body']) pBodies2[i].textContent = d[k+'_body'];
+  });
+  const ah = document.querySelector('.answer-heading');
+  if (ah && d.answer_heading) ah.innerHTML = d.answer_heading.replace('Craft Valley', '<em>Craft Valley</em>');
+  const asub = document.querySelector('.answer-sub');
+  if (asub && d.answer_sub) asub.textContent = d.answer_sub;
+  const ch = document.querySelector('.cta-heading');
+  if (ch && d.cta_heading) ch.innerHTML = d.cta_heading.replace('挑戦しませんか。', '<em>挑戦しませんか。</em>');
+});
+
+// ── メンバー一覧（GitHub APIでフォルダを自動スキャン） ───────
+fetchFolder('content/members').then(members => {
+  const grid = document.getElementById('members-grid');
+  if (!grid || !members.length) return;
+  const active = members
+    .filter(m => m && m.active !== false)
+    .sort((a, b) => (a.order || 99) - (b.order || 99));
+  grid.innerHTML = active.map((m, i) => `
+    <div class="member-card reveal reveal-delay-${(i % 4) + 1}">
+      <div class="member-bg" style="${m.image
+        ? `background-image:url('${m.image}');background-size:cover;background-position:center top;`
+        : `background:var(--umber);`}">
+        <div class="member-bg-pattern"></div>
+      </div>
+      <div class="member-card-inner">
+        <div class="member-role">${m.role || ''}</div>
+        <div class="member-name">${m.title || ''}</div>
+        <div class="member-craft">${m.craft || ''}</div>
+      </div>
+    </div>
+  `).join('');
+  grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+});
+
+// ── 活動・実績（GitHub APIでフォルダを自動スキャン） ─────────
+fetchFolder('content/activities').then(acts => {
+  const grid = document.getElementById('activities-grid');
+  if (!grid || !acts.length) return;
+  const sorted = acts.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
+  const featured = sorted.find(a => a.featured) || sorted[0];
+  const rest = sorted.filter(a => a !== featured).slice(0, 3);
+  let html = `
+    <div class="activity-card featured reveal">
+      <div class="activity-thumb" style="${featured.image
+        ? `background-image:url('${featured.image}');background-size:cover;`
+        : ''}">
+        <div class="activity-thumb-pattern"></div>
+        <div class="activity-thumb-label">${featured.type || ''}</div>
+      </div>
+      <div class="activity-content">
+        <div class="activity-date">${featured.date || ''} · ${featured.type || ''}</div>
+        <div class="activity-title">${featured.title || ''}</div>
+        <p class="activity-body">${featured.body || ''}</p>
+      </div>
+    </div>`;
+  rest.forEach((a, i) => {
+    html += `
+    <div class="activity-card reveal reveal-delay-${i + 1}">
+      <div class="activity-thumb" style="height:140px;${a.image
+        ? `background-image:url('${a.image}');background-size:cover;`
+        : ''}">
+        <div class="activity-thumb-pattern"></div>
+        <div class="activity-thumb-label">${a.type || ''}</div>
+      </div>
+      <div class="activity-content">
+        <div class="activity-date">${a.date || ''} · ${a.type || ''}</div>
+        <div class="activity-title">${a.title || ''}</div>
+        <p class="activity-body">${a.body || ''}</p>
+      </div>
+    </div>`;
+  });
+  grid.innerHTML = html;
+  grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+});
 </script>
 
 </body>
