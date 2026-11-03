@@ -14,64 +14,48 @@ collections:
         label: "サイト全体の文言"
         file: "content/settings/site.json"
         fields:
-          - { label: "上部タグライン", name: "hero_eyebrow", widget: "string" }
-          - { label: "英語キャッチコピー", name: "hero_title_en", widget: "string" }
-          - { label: "日本語サブタイトル", name: "hero_title_ja", widget: "string" }
-          - { label: "説明文", name: "hero_description", widget: "text" }
-          - { label: "メインボタン", name: "hero_btn_primary", widget: "string" }
-          - { label: "サブリンク", name: "hero_btn_secondary", widget: "string" }
-          - { label: "ビジョン大見出し", name: "vision_quote", widget: "text" }
-          - { label: "ビジョンタイトル", name: "vision_title", widget: "string" }
-          - { label: "ビジョン（叩き・サイト非表示）", name: "vision_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
+          - { label: "ビジョン見出し（改行可）", name: "vision_heading", widget: "text" }
           - { label: "ビジョン本文①", name: "vision_p1", widget: "text" }
           - { label: "ビジョン本文②", name: "vision_p2", widget: "text" }
-          - { label: "ビジョン本文③", name: "vision_p3", widget: "text" }
-          - { label: "ビジョン本文④", name: "vision_p4", widget: "text" }
-          - { label: "課題の概要（叩き・サイト非表示）", name: "problem_summary_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
-          - { label: "課題の概要", name: "problem_summary", widget: "text" }
-          - { label: "課題①タイトル", name: "problem1_title", widget: "string" }
-          - { label: "課題①（叩き・サイト非表示）", name: "problem1_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
-          - { label: "課題①説明", name: "problem1_body", widget: "text" }
-          - { label: "課題②タイトル", name: "problem2_title", widget: "string" }
-          - { label: "課題②（叩き・サイト非表示）", name: "problem2_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
-          - { label: "課題②説明", name: "problem2_body", widget: "text" }
-          - { label: "課題③タイトル", name: "problem3_title", widget: "string" }
-          - { label: "課題③（叩き・サイト非表示）", name: "problem3_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
-          - { label: "課題③説明", name: "problem3_body", widget: "text" }
-          - { label: "Our Answer見出し", name: "answer_heading", widget: "string" }
-          - { label: "取り組みの概要（叩き・サイト非表示）", name: "answer_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
-          - { label: "取り組みの概要（Our Answer説明）", name: "answer_sub", widget: "text" }
-          - { label: "取り組み①タイトル", name: "pillar1_title", widget: "string" }
-          - { label: "取り組み① 対応課題", name: "pillar1_issue", widget: "string" }
-          - { label: "取り組み①（叩き・サイト非表示）", name: "pillar1_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
-          - { label: "取り組み①説明", name: "pillar1_body", widget: "text" }
-          - { label: "取り組み②タイトル", name: "pillar2_title", widget: "string" }
-          - { label: "取り組み② 対応課題", name: "pillar2_issue", widget: "string" }
-          - { label: "取り組み②（叩き・サイト非表示）", name: "pillar2_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
-          - { label: "取り組み②説明", name: "pillar2_body", widget: "text" }
-          - { label: "取り組み③タイトル", name: "pillar3_title", widget: "string" }
-          - { label: "取り組み③ 対応課題", name: "pillar3_issue", widget: "string" }
-          - { label: "取り組み③（叩き・サイト非表示）", name: "pillar3_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
-          - { label: "取り組み③説明", name: "pillar3_body", widget: "text" }
-          - { label: "CTA見出し", name: "cta_heading", widget: "text" }
-          - { label: "CTA説明文", name: "cta_sub", widget: "text" }
-          - { label: "フッターキャッチ", name: "footer_tagline", widget: "string" }
+          - label: "ファウンダー"
+            name: "founders"
+            widget: "list"
+            summary: "{{fields.name}} ／ {{fields.role}}"
+            fields:
+              - { label: "氏名", name: "name", widget: "string" }
+              - { label: "肩書き", name: "role", widget: "string" }
+              - { label: "写真（未設定なら👤）", name: "image", widget: "image", required: false }
+          - { label: "構想 見出し（改行可）", name: "concept_heading", widget: "text" }
+          - { label: "構想 本文①", name: "concept_p1", widget: "text" }
+          - { label: "構想 本文②", name: "concept_p2", widget: "text" }
+          - { label: "構想 本文③", name: "concept_p3", widget: "text" }
+          - { label: "構想 写真", name: "concept_image", widget: "image" }
+          - { label: "連携先 説明文（改行可）", name: "partners_lead", widget: "text" }
+          - { label: "お問い合わせ 見出し（改行可）", name: "cta_heading", widget: "text" }
+          - { label: "お問い合わせ 説明文", name: "cta_sub", widget: "text" }
+          - { label: "お問い合わせ先メールアドレス", name: "cta_email", widget: "string" }
+          - { label: "フッター サブタイトル", name: "footer_sub", widget: "string" }
           - { label: "コピーライト", name: "footer_copyright", widget: "string" }
 
       - name: "slides"
-        label: "🖼 スライドショー写真"
+        label: "🖼 ビジョン左右の写真"
         file: "content/settings/slides.json"
         fields:
-          - name: "slides"
-            label: "スライド一覧（最大5枚）"
+          - name: "left"
+            label: "左側の写真（スライドショー）"
             widget: "list"
-            max: 5
+            fields:
+              - { label: "写真", name: "image", widget: "image" }
+              - { label: "説明（alt）", name: "alt", widget: "string" }
+          - name: "right"
+            label: "右側の写真（スライドショー・スマホでは非表示）"
+            widget: "list"
             fields:
               - { label: "写真", name: "image", widget: "image" }
               - { label: "説明（alt）", name: "alt", widget: "string" }
 
   - name: "members"
-    label: "👥 メンバー"
+    label: "👥 メンバー（現在トップページ非表示）"
     folder: "content/members"
     create: true
     format: "json"
@@ -95,12 +79,13 @@ collections:
     summary: "{{date}} ／ {{title}}"
     fields:
       - { label: "タイトル", name: "title", widget: "string" }
-      - { label: "時期（例：2025.03）", name: "date", widget: "string" }
+      - { label: "時期（例：2025年4月）", name: "date", widget: "string" }
+      - { label: "場所（例：ミラノ）", name: "location", widget: "string", required: false }
       - { label: "種別", name: "type", widget: "select",
           options: ["展示会","イベント","連携","メディア掲載"] }
       - { label: "サムネイル", name: "image", widget: "image", required: false }
       - { label: "説明文", name: "body", widget: "text" }
-      - { label: "注目記事として大きく表示", name: "featured", widget: "boolean", default: false }
+      - { label: "優先して表示（トップには最新3件・1件目が大きく表示）", name: "featured", widget: "boolean", default: false }
 
   - name: "news"
     label: "📰 ニュース・記事"
@@ -115,5 +100,20 @@ collections:
       - { label: "カテゴリ", name: "category", widget: "select",
           options: ["展示会","マルシェ","メディア掲載","連携・協定","お知らせ","活動レポート"] }
       - { label: "サムネイル", name: "image", widget: "image", required: false }
-      - { label: "本文", name: "body", widget: "markdown" }
+      - { label: "本文", name: "body", widget: "markdown", required: false }
+      - { label: "リンク先URL（任意）", name: "link", widget: "string", required: false }
       - { label: "公開", name: "published", widget: "boolean", default: true }
+
+  - name: "partners"
+    label: "🤝 連携先"
+    folder: "content/partners"
+    create: true
+    format: "json"
+    slug: "{{slug}}"
+    summary: "{{title}} ／ {{subtitle}}"
+    fields:
+      - { label: "名称（大きく表示）", name: "title", widget: "string" }
+      - { label: "正式名称など（小さく表示）", name: "subtitle", widget: "string", required: false }
+      - { label: "ロゴ画像（任意）", name: "logo", widget: "image", required: false }
+      - { label: "リンク先URL（任意）", name: "url", widget: "string", required: false }
+      - { label: "表示順（小さい数字が先）", name: "order", widget: "number", default: 99 }

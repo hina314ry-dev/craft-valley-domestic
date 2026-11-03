@@ -1,1385 +1,801 @@
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Craft Valley | 飛能越から世界へ</title>
+<title>Craft Valley — 飛騨・越中・能登から、世界へ。</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Noto+Serif+JP:wght@300;400;500&family=Noto+Sans+JP:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@300;400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-  /* ===== CSS VARIABLES ===== */
-  :root {
-    --ink: #1a1208;
-    --earth: #2d1b0e;
-    --umber: #5c3a1e;
-    --amber: #c07a3a;
-    --gold: #d4a853;
-    --sand: #e8d5b0;
-    --cream: #faf6ef;
-    --mist: #f2ede4;
-    --teal: #2a6b6b;
-    --sage: #4a7c59;
-    --slate: #8a9ba8;
-    --white: #ffffff;
-    --font-serif: 'Cormorant Garamond', 'Noto Serif JP', serif;
-    --font-sans: 'Noto Sans JP', sans-serif;
-  }
+/* ============================================
+   TOKENS
+   ============================================ */
+:root {
+  --white:   #f0ede8;   /* やや落とした白（生成り） */
+  --warm-top: #ede5d8;  /* 冒頭の茶みがかった白 */
+  --off:     #e8e4dd;   /* セクション背景 */
+  --pure:    #faf9f7;   /* カード・ポップオーバー等 */
+  --ink:     #1c1c1c;
+  --mid:     #5a5a5a;
+  --faint:   #9a9a9a;
+  --forest:  #3a5c3e;
+  --stone:   #cdc9c0;
+  --border:  #d6d1c8;
 
-  /* ===== RESET & BASE ===== */
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; font-size: 16px; }
-  body {
-    font-family: var(--font-sans);
-    background: var(--cream);
-    color: var(--ink);
-    overflow-x: hidden;
-    cursor: none;
-  }
+  --serif: 'Noto Serif JP', 'Hiragino Mincho ProN', serif;
+  --sans:  'Noto Sans JP', 'Hiragino Kaku Gothic ProN', sans-serif;
 
-  /* ===== CUSTOM CURSOR ===== */
-  .cursor {
-    position: fixed;
-    width: 8px; height: 8px;
-    background: var(--amber);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transform: translate(-50%, -50%);
-    transition: transform 0.1s ease, width 0.3s ease, height 0.3s ease, background 0.3s ease;
-  }
-  .cursor-ring {
-    position: fixed;
-    width: 36px; height: 36px;
-    border: 1px solid var(--amber);
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9998;
-    transform: translate(-50%, -50%);
-    transition: transform 0.18s ease, width 0.3s ease, height 0.3s ease, opacity 0.3s ease;
-    opacity: 0.6;
-  }
-  .cursor.expand { width: 14px; height: 14px; background: var(--gold); }
-  .cursor-ring.expand { width: 54px; height: 54px; opacity: 0.3; }
+  --gap: clamp(52px, 7vw, 88px);
+  --col: min(1120px, 92vw);
+}
 
-  /* ===== NAV ===== */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.4rem 3rem;
-    mix-blend-mode: normal;
-    transition: background 0.4s ease, padding 0.4s ease;
-  }
-  nav.scrolled {
-    background: rgba(250, 246, 239, 0.95);
-    backdrop-filter: blur(12px);
-    padding: 1rem 3rem;
-    border-bottom: 1px solid rgba(192, 122, 58, 0.15);
-  }
-  .nav-logo {
-    font-family: var(--font-serif);
-    font-size: 1.3rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: var(--white);
-    text-decoration: none;
-    transition: color 0.4s ease;
-  }
-  nav.scrolled .nav-logo { color: var(--earth); }
-  .nav-links {
-    display: flex;
-    gap: 2.4rem;
-    list-style: none;
-    align-items: center;
-  }
-  .nav-links a {
-    font-family: var(--font-sans);
-    font-size: 0.7rem;
-    font-weight: 300;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.8);
-    text-decoration: none;
-    transition: color 0.3s ease;
-    position: relative;
-  }
-  .nav-links a::after {
-    content: '';
-    position: absolute;
-    bottom: -3px; left: 0;
-    width: 0; height: 1px;
-    background: var(--amber);
-    transition: width 0.3s ease;
-  }
-  .nav-links a:hover::after { width: 100%; }
-  .nav-links a:hover { color: var(--gold); }
-  nav.scrolled .nav-links a { color: var(--umber); }
-  nav.scrolled .nav-links a:hover { color: var(--amber); }
-  .nav-cta {
-    font-size: 0.68rem !important;
-    letter-spacing: 0.12em !important;
-    border: 1px solid rgba(255,255,255,0.4) !important;
-    padding: 0.45rem 1.2rem;
-    border-radius: 0;
-    color: white !important;
-    transition: background 0.3s, border-color 0.3s, color 0.3s !important;
-  }
-  .nav-cta:hover { background: var(--amber); border-color: var(--amber) !important; color: white !important; }
-  nav.scrolled .nav-cta { border-color: var(--amber) !important; color: var(--amber) !important; }
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; scroll-behavior: smooth; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--white);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.7;
+}
+img { display: block; max-width: 100%; }
+a { color: inherit; text-decoration: none; }
 
-  /* ===== HERO ===== */
-  .hero {
-    position: relative;
-    height: 100vh;
-    min-height: 680px;
-    display: flex;
-    align-items: flex-end;
-    overflow: hidden;
-    background: var(--earth);
-  }
-  .hero-bg {
-    position: absolute;
-    inset: 0;
-    background: 
-      radial-gradient(ellipse at 70% 40%, rgba(192,122,58,0.12) 0%, transparent 60%),
-      radial-gradient(ellipse at 20% 80%, rgba(42,107,107,0.15) 0%, transparent 50%),
-      linear-gradient(160deg, #1a1208 0%, #2d1b0e 40%, #3d2510 100%);
-  }
-  /* Decorative craft pattern overlay */
-  .hero-pattern {
-    position: absolute;
-    inset: 0;
-    background-image: 
-      repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 59px,
-        rgba(192,122,58,0.04) 59px,
-        rgba(192,122,58,0.04) 60px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent,
-        transparent 59px,
-        rgba(192,122,58,0.04) 59px,
-        rgba(192,122,58,0.04) 60px
-      );
-    pointer-events: none;
-  }
-  /* Vertical amber accent line */
-  .hero-line {
-    position: absolute;
-    left: 3rem;
-    top: 0; bottom: 0;
-    width: 1px;
-    background: linear-gradient(to bottom, transparent, var(--amber) 30%, var(--amber) 70%, transparent);
-    opacity: 0.5;
-  }
-  /* Large background text */
-  .hero-bg-text {
-    position: absolute;
-    right: -1rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-family: var(--font-serif);
-    font-size: clamp(7rem, 14vw, 16rem);
-    font-weight: 300;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(192,122,58,0.08);
-    white-space: nowrap;
-    pointer-events: none;
-    user-select: none;
-    letter-spacing: -0.02em;
-    line-height: 1;
-  }
-  .hero-content {
-    position: relative;
-    z-index: 2;
-    padding: 0 3rem 6rem 6rem;
-    max-width: 780px;
-  }
-  .hero-eyebrow {
-    font-family: var(--font-sans);
-    font-size: 0.65rem;
-    font-weight: 300;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    opacity: 0;
-    animation: fadeUp 0.8s ease 0.3s forwards;
-  }
-  .hero-eyebrow::before {
-    content: '';
-    display: block;
-    width: 2.5rem;
-    height: 1px;
-    background: var(--amber);
-    flex-shrink: 0;
-  }
-  .hero-title {
-    font-family: var(--font-serif);
-    font-size: clamp(3.2rem, 6vw, 6.5rem);
-    font-weight: 300;
-    line-height: 1.05;
-    color: var(--white);
-    letter-spacing: -0.01em;
-    margin-bottom: 0.4rem;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.5s forwards;
-  }
-  .hero-title em {
-    font-style: italic;
-    color: var(--gold);
-    font-weight: 300;
-  }
-  .hero-subtitle {
-    font-family: var(--font-serif);
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    font-weight: 300;
-    color: rgba(255,255,255,0.5);
-    letter-spacing: 0.25em;
-    margin-top: 0.6rem;
-    margin-bottom: 2.5rem;
-    font-style: italic;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.7s forwards;
-  }
-  .hero-desc {
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    font-weight: 300;
-    line-height: 2;
-    color: rgba(255,255,255,0.6);
-    max-width: 480px;
-    margin-bottom: 3rem;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 0.9s forwards;
-  }
-  .hero-actions {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-    opacity: 0;
-    animation: fadeUp 0.9s ease 1.1s forwards;
-  }
-  .btn-primary {
-    font-family: var(--font-sans);
-    font-size: 0.72rem;
-    font-weight: 400;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    background: var(--amber);
-    color: var(--white);
-    border: none;
-    padding: 1rem 2.5rem;
-    cursor: none;
-    text-decoration: none;
-    display: inline-block;
-    transition: background 0.3s ease, transform 0.2s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .btn-primary::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255,255,255,0.1);
-    transform: translateX(-100%);
-    transition: transform 0.4s ease;
-  }
-  .btn-primary:hover::after { transform: translateX(0); }
-  .btn-primary:hover { background: #d48c4a; }
-  .btn-ghost {
-    font-family: var(--font-sans);
-    font-size: 0.72rem;
-    font-weight: 300;
-    letter-spacing: 0.14em;
-    color: rgba(255,255,255,0.6);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.7rem;
-    transition: color 0.3s;
-  }
-  .btn-ghost::after {
-    content: '→';
-    transition: transform 0.3s;
-    display: inline-block;
-  }
-  .btn-ghost:hover { color: var(--gold); }
-  .btn-ghost:hover::after { transform: translateX(4px); }
-  /* Scroll indicator */
-  .scroll-indicator {
-    position: absolute;
-    bottom: 2.5rem;
-    right: 3rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.6rem;
-    opacity: 0;
-    animation: fadeIn 1s ease 1.5s forwards;
-  }
-  .scroll-indicator span {
-    font-family: var(--font-sans);
-    font-size: 0.6rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.3);
-    writing-mode: vertical-rl;
-  }
-  .scroll-line {
-    width: 1px;
-    height: 4rem;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(192,122,58,0.5));
-    position: relative;
-    overflow: hidden;
-  }
-  .scroll-line::after {
-    content: '';
-    position: absolute;
-    top: -100%;
-    left: 0;
-    width: 1px;
-    height: 100%;
-    background: var(--amber);
-    animation: scrollDown 2s ease-in-out infinite 2s;
-  }
-  @keyframes scrollDown {
-    0% { top: -100%; }
-    100% { top: 200%; }
-  }
+/* ============================================
+   NAV
+   ============================================ */
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 20px 4vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: background 0.35s, box-shadow 0.35s;
+}
+.nav.scrolled {
+  background: rgba(240,237,232,0.96);
+  box-shadow: 0 1px 0 var(--border);
+}
+.nav-logo {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 1.05rem;
+  letter-spacing: 0.05em;
+  color: var(--white);
+  transition: color 0.35s;
+}
+.nav.scrolled .nav-logo { color: var(--ink); }
 
-  /* ===== VISION SECTION ===== */
-  .section-vision {
-    background: var(--cream);
-    padding: 8rem 3rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .section-vision::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 1px; height: 100%;
-    background: var(--amber);
-    opacity: 0.2;
-    left: 3rem;
-  }
-  .vision-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: 6rem;
-    align-items: center;
-  }
-  .section-label {
-    font-family: var(--font-sans);
-    font-size: 0.62rem;
-    font-weight: 300;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-  .section-label::before {
-    content: '';
-    display: block;
-    width: 2rem;
-    height: 1px;
-    background: var(--amber);
-  }
-  .vision-quote {
-    font-family: var(--font-serif);
-    font-size: clamp(2rem, 3.5vw, 3.2rem);
-    font-weight: 300;
-    line-height: 1.5;
-    color: var(--earth);
-    letter-spacing: 0.01em;
-  }
-  .vision-quote em {
-    font-style: italic;
-    color: var(--amber);
-  }
-  .vision-text-block p {
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    font-weight: 300;
-    line-height: 2.2;
-    color: #5a4a3a;
-    margin-bottom: 1.2rem;
-  }
-  .vision-text-block p:last-child { margin-bottom: 0; }
-  .vision-stat {
-    display: flex;
-    gap: 3rem;
-    margin-top: 3rem;
-    padding-top: 2.5rem;
-    border-top: 1px solid rgba(192,122,58,0.2);
-  }
-  .stat-item {}
-  .stat-num {
-    font-family: var(--font-serif);
-    font-size: 2.5rem;
-    font-weight: 300;
-    color: var(--amber);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-  .stat-label {
-    font-family: var(--font-sans);
-    font-size: 0.65rem;
-    font-weight: 300;
-    letter-spacing: 0.1em;
-    color: var(--slate);
-    margin-top: 0.3rem;
-  }
+.nav-links {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+}
+.nav-links a { color: rgba(255,255,255,0.82); transition: opacity 0.2s; }
+.nav.scrolled .nav-links a { color: var(--mid); }
+.nav-links a:hover { opacity: 0.6; }
 
-  /* ===== PROBLEM SECTION ===== */
-  .section-problem {
-    background: var(--earth);
-    padding: 8rem 3rem;
-    position: relative;
-    overflow: hidden;
-  }
-  .section-problem::after {
-    content: 'CHALLENGE';
-    position: absolute;
-    right: -2rem;
-    bottom: 2rem;
-    font-family: var(--font-serif);
-    font-size: 10rem;
-    font-weight: 300;
-    color: transparent;
-    -webkit-text-stroke: 1px rgba(255,255,255,0.04);
-    pointer-events: none;
-    user-select: none;
-  }
-  .problem-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .problem-inner .section-label { color: var(--gold); }
-  .problem-inner .section-label::before { background: var(--gold); }
-  .problem-heading {
-    font-family: var(--font-serif);
-    font-size: clamp(2rem, 3.5vw, 3.2rem);
-    font-weight: 300;
-    color: var(--white);
-    line-height: 1.4;
-    margin-bottom: 4rem;
-    max-width: 700px;
-  }
-  .problem-heading em {
-    font-style: italic;
-    color: var(--gold);
-  }
-  .problem-lead {
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    font-weight: 300;
-    line-height: 2.1;
-    color: rgba(255,255,255,0.6);
-    max-width: 760px;
-    margin: -2.5rem 0 4rem;
-  }
-  .problem-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 1.5px;
-    background: rgba(255,255,255,0.06);
-  }
-  .problem-card {
-    background: rgba(255,255,255,0.03);
-    padding: 2.5rem 2rem;
-    border: 1px solid rgba(255,255,255,0.05);
-    transition: background 0.3s ease, border-color 0.3s ease;
-    position: relative;
-    overflow: hidden;
-  }
-  .problem-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 2px; height: 0;
-    background: var(--amber);
-    transition: height 0.4s ease;
-  }
-  .problem-card:hover { background: rgba(192,122,58,0.06); border-color: rgba(192,122,58,0.2); }
-  .problem-card:hover::before { height: 100%; }
-  .problem-num {
-    font-family: var(--font-serif);
-    font-size: 3.5rem;
-    font-weight: 300;
-    color: rgba(255,255,255,0.06);
-    line-height: 1;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.02em;
-  }
-  .problem-title {
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
-    font-weight: 400;
-    color: var(--sand);
-    margin-bottom: 0.8rem;
-    letter-spacing: 0.04em;
-  }
-  .problem-body {
-    font-family: var(--font-sans);
-    font-size: 0.78rem;
-    font-weight: 300;
-    line-height: 1.9;
-    color: rgba(255,255,255,0.4);
-  }
+.nav-cta {
+  font-size: 0.78rem;
+  padding: 9px 22px;
+  border: 1px solid rgba(255,255,255,0.55);
+  color: var(--white);
+  border-radius: 2px;
+  transition: all 0.2s;
+  letter-spacing: 0.04em;
+}
+.nav.scrolled .nav-cta { border-color: var(--forest); color: var(--forest); }
+.nav-cta:hover { background: rgba(255,255,255,0.15); }
+.nav.scrolled .nav-cta:hover { background: var(--forest); color: var(--pure); }
 
-  /* ===== OUR ANSWER SECTION ===== */
-  .section-answer {
-    background: var(--cream);
-    padding: 8rem 3rem;
-    position: relative;
-  }
-  .answer-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    text-align: center;
-  }
-  .answer-heading {
-    font-family: var(--font-serif);
-    font-size: clamp(2.5rem, 4.5vw, 5rem);
-    font-weight: 300;
-    color: var(--earth);
-    line-height: 1.2;
-    margin-bottom: 1.5rem;
-    letter-spacing: -0.01em;
-  }
-  .answer-heading em {
-    font-style: italic;
-    color: var(--amber);
-  }
-  .answer-sub {
-    font-family: var(--font-sans);
-    font-size: 0.85rem;
-    font-weight: 300;
-    line-height: 2.1;
-    color: #7a6a5a;
-    max-width: 580px;
-    margin: 0 auto 5rem;
-  }
-  .answer-pillars {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    text-align: left;
-  }
-  .pillar {
-    padding: 2.5rem;
-    background: var(--mist);
-    border: 1px solid rgba(192,122,58,0.12);
-    position: relative;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .pillar:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(45,27,14,0.1); }
-  .pillar-icon {
-    width: 3rem; height: 3rem;
-    background: var(--amber);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1.5rem;
-    font-family: var(--font-serif);
-    font-size: 1.1rem;
-    color: var(--white);
-    font-weight: 300;
-  }
-  .pillar-title {
-    font-family: var(--font-serif);
-    font-size: 1.2rem;
-    font-weight: 400;
-    color: var(--earth);
-    margin-bottom: 0.8rem;
-    letter-spacing: 0.02em;
-  }
-  .pillar-issue {
-    font-family: var(--font-sans);
-    font-size: 0.65rem;
-    font-weight: 300;
-    letter-spacing: 0.08em;
-    color: var(--amber);
-    margin-bottom: 0.8rem;
-  }
-  .pillar-body {
-    font-family: var(--font-sans);
-    font-size: 0.78rem;
-    font-weight: 300;
-    line-height: 1.9;
-    color: #6a5a4a;
-  }
+/* hero removed */
 
-  /* ===== MEMBERS PREVIEW ===== */
-  .section-members {
-    background: var(--mist);
-    padding: 8rem 3rem;
-  }
-  .members-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-  }
-  .members-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 4rem;
-  }
-  .members-title {
-    font-family: var(--font-serif);
-    font-size: clamp(2rem, 3vw, 2.8rem);
-    font-weight: 300;
-    color: var(--earth);
-    line-height: 1.2;
-  }
-  .link-more {
-    font-family: var(--font-sans);
-    font-size: 0.68rem;
-    font-weight: 300;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--amber);
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding-bottom: 0.2rem;
-    border-bottom: 1px solid var(--amber);
-    transition: gap 0.3s;
-  }
-  .link-more:hover { gap: 1rem; }
-  .members-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 1.5rem;
-  }
-  .member-card {
-    position: relative;
-    overflow: hidden;
-    background: var(--earth);
-    aspect-ratio: 3/4;
-    cursor: none;
-  }
-  .member-card-inner {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    padding: 1.5rem;
-    background: linear-gradient(to top, rgba(29,15,5,0.9) 0%, transparent 50%);
-    transition: background 0.3s ease;
-  }
-  .member-card:hover .member-card-inner {
-    background: linear-gradient(to top, rgba(29,15,5,0.95) 0%, rgba(29,15,5,0.2) 100%);
-  }
-  .member-bg {
-    position: absolute;
-    inset: 0;
-    background: var(--umber);
-    transition: transform 0.5s ease;
-  }
-  .member-card:hover .member-bg { transform: scale(1.04); }
-  /* Placeholder pattern for member photo */
-  .member-bg-pattern {
-    position: absolute;
-    inset: 0;
-    background-image: repeating-linear-gradient(
-      45deg,
-      rgba(255,255,255,0.02) 0px,
-      rgba(255,255,255,0.02) 1px,
-      transparent 1px,
-      transparent 20px
-    );
-  }
-  .member-role {
-    font-family: var(--font-sans);
-    font-size: 0.6rem;
-    font-weight: 300;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 0.3rem;
-  }
-  .member-name {
-    font-family: var(--font-serif);
-    font-size: 1.05rem;
-    font-weight: 400;
-    color: var(--white);
-    letter-spacing: 0.05em;
-  }
-  .member-craft {
-    font-family: var(--font-sans);
-    font-size: 0.72rem;
-    font-weight: 300;
-    color: rgba(255,255,255,0.5);
-    margin-top: 0.2rem;
-  }
+/* ============================================
+   VISION WITH SIDE PHOTOS
+   ============================================ */
+.vision {
+  background: linear-gradient(to bottom, var(--warm-top) 0%, var(--off) 100%);
+  padding: calc(var(--gap) + 56px) 0 calc(var(--gap) * 0.8);
+  overflow: hidden;
+}
 
-  /* ===== ACTIVITIES PREVIEW ===== */
-  .section-activities {
-    background: var(--cream);
-    padding: 8rem 3rem;
+.vision-stage {
+  display: grid;
+  grid-template-columns: 1fr minmax(300px, 460px) 1fr;
+  align-items: center;
+  gap: 0;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* 左右スライドショーカラム */
+.vision-photos {
+  position: relative;
+  height: 420px;
+}
+.vision-photos--right {
+  /* ほんの少し遅らせてずらす */
+}
+
+.vp-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.9s ease;
+}
+.vp-slide.active { opacity: 1; }
+
+.vp-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 左側：右端を少しフェード */
+.vision-photos:first-child::after {
+  content: '';
+  position: absolute;
+  top: 0; right: 0; bottom: 0;
+  width: 80px;
+  background: linear-gradient(to right, transparent, var(--off));
+  z-index: 1;
+  pointer-events: none;
+}
+/* 右側：左端を少しフェード */
+.vision-photos:last-child::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 80px;
+  background: linear-gradient(to left, transparent, var(--off));
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* 中央テキスト */
+.vision-center {
+  text-align: center;
+  padding: 0 48px;
+  z-index: 2;
+}
+
+.section-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.18em;
+  color: var(--faint);
+  margin-bottom: 28px;
+  display: block;
+}
+
+.vision-center h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.7rem, 2.8vw, 2.6rem);
+  line-height: 1.6;
+  margin-bottom: 28px;
+  letter-spacing: 0.04em;
+}
+
+.vision-center p {
+  font-size: 0.88rem;
+  color: var(--mid);
+  line-height: 2.0;
+  margin-bottom: 14px;
+  text-align: left;
+}
+
+.vision-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--forest);
+  margin-top: 20px;
+  border-bottom: 1px solid var(--forest);
+  padding-bottom: 2px;
+  transition: opacity 0.2s;
+  letter-spacing: 0.04em;
+}
+.vision-link:hover { opacity: 0.65; }
+.vision-link::after { content: '→'; }
+
+/* ファウンダー — テキスト下 */
+.vision-founders {
+  display: flex;
+  justify-content: center;
+  gap: 56px;
+  margin-top: 48px;
+  padding-top: 36px;
+  border-top: 1px solid var(--border);
+}
+
+.founder {
+  text-align: center;
+}
+.founder-photo {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 0 auto 12px;
+  background: var(--stone);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  overflow: hidden;
+}
+.founder-photo img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.founder-name {
+  font-family: var(--serif);
+  font-size: 0.95rem;
+  font-weight: 400;
+  margin-bottom: 3px;
+}
+.founder-role {
+  font-size: 0.72rem;
+  color: var(--faint);
+  line-height: 1.5;
+}
+
+/* ============================================
+   ACTIVITIES
+   ============================================ */
+.activities {
+  background: var(--white);
+  padding: var(--gap) 0 0;
+}
+.activities-header {
+  max-width: var(--col);
+  margin: 0 auto 28px;
+  padding: 0 4vw;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+.activities-header h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.4rem, 2.4vw, 1.9rem);
+}
+.see-all {
+  font-size: 0.8rem;
+  color: var(--mid);
+  border-bottom: 1px solid var(--stone);
+  padding-bottom: 1px;
+  transition: opacity 0.2s;
+}
+.see-all:hover { opacity: 0.6; }
+
+.activities-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+.activity-card:first-child {
+  grid-column: 1 / -1;
+}
+.activity-card {
+  position: relative;
+  overflow: hidden;
+  background: #111;
+}
+.activity-card-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s ease, opacity 0.55s ease;
+  opacity: 0.84;
+}
+.activity-card:first-child .activity-card-img { aspect-ratio: 21/9; }
+.activity-card:hover .activity-card-img { transform: scale(1.03); opacity: 0.68; }
+.activity-card-body {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  padding: 24px 28px;
+  background: linear-gradient(to top, rgba(0,0,0,0.72) 0%, transparent 100%);
+}
+.activity-tag {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.1em;
+  margin-bottom: 7px;
+}
+.activity-title {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  color: #fff;
+  font-weight: 300;
+  line-height: 1.45;
+}
+.activity-card:first-child .activity-title {
+  font-size: clamp(1.15rem, 2vw, 1.55rem);
+}
+
+/* ============================================
+   PARTNERS
+   ============================================ */
+.partners {
+  background: var(--off);
+  padding: var(--gap) 4vw;
+}
+.partners-head {
+  max-width: var(--col);
+  margin: 0 auto 48px;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 24px;
+}
+.partners-head h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+}
+.partners-head p {
+  font-size: 0.82rem;
+  color: var(--mid);
+  max-width: 300px;
+  text-align: right;
+}
+
+.partners-grid {
+  max-width: var(--col);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  border-top: 1px solid var(--border);
+  border-left: 1px solid var(--border);
+}
+.partner-item {
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 26px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 90px;
+  transition: background 0.18s;
+}
+.partner-item:hover { background: var(--pure); }
+.partner-placeholder {
+  font-size: 0.8rem;
+  color: var(--mid);
+  font-weight: 500;
+  text-align: center;
+}
+.partner-name {
+  font-size: 0.68rem;
+  color: var(--faint);
+  text-align: center;
+  line-height: 1.4;
+}
+
+/* ============================================
+   NEWS
+   ============================================ */
+.news-section {
+  background: var(--white);
+  padding: var(--gap) 4vw;
+}
+.news-inner { max-width: var(--col); margin: 0 auto; }
+.news-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 28px;
+}
+.news-head h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.3rem, 2.2vw, 1.9rem);
+}
+.news-list { border-top: 1px solid var(--border); }
+.news-item {
+  display: grid;
+  grid-template-columns: 110px 1fr 24px;
+  align-items: baseline;
+  gap: 28px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--border);
+  transition: opacity 0.15s;
+}
+.news-item:hover { opacity: 0.6; }
+.news-date { font-size: 0.78rem; color: var(--faint); }
+.news-title { font-size: 0.9rem; line-height: 1.55; }
+.news-arrow { font-size: 0.78rem; color: var(--stone); }
+
+/* ============================================
+   CTA
+   ============================================ */
+.cta-strip {
+  background: #1a1a16;
+  padding: 88px 4vw;
+  text-align: center;
+}
+.cta-strip h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+  color: var(--pure);
+  margin-bottom: 14px;
+  line-height: 1.55;
+}
+.cta-strip p {
+  font-size: 0.86rem;
+  color: rgba(255,255,255,0.45);
+  margin-bottom: 36px;
+  line-height: 1.85;
+}
+.btn-primary {
+  display: inline-block;
+  padding: 14px 44px;
+  background: var(--forest);
+  color: var(--pure);
+  font-size: 0.84rem;
+  letter-spacing: 0.06em;
+  border-radius: 2px;
+  transition: opacity 0.2s;
+}
+.btn-primary:hover { opacity: 0.78; }
+
+/* ============================================
+   FOOTER
+   ============================================ */
+footer {
+  background: var(--off);
+  padding: 44px 4vw;
+  border-top: 1px solid var(--border);
+}
+.footer-inner {
+  max-width: var(--col);
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+.footer-logo { font-family: var(--serif); font-size: 0.95rem; }
+.footer-sub { font-size: 0.7rem; color: var(--faint); margin-top: 3px; }
+.footer-copy { font-size: 0.7rem; color: var(--faint); }
+
+/* ============================================
+   RESPONSIVE
+   ============================================ */
+@media (max-width: 900px) {
+  .vision-stage {
+    grid-template-columns: 1fr;
+    gap: 0;
   }
-  .activities-inner {
-    max-width: 1100px;
-    margin: 0 auto;
+  .vision-photos {
+    height: 260px;
   }
-  .activities-header {
-    display: flex;
-    align-items: flex-end;
-    justify-content: space-between;
-    margin-bottom: 4rem;
-  }
+  .vision-photos:first-child::after,
+  .vision-photos:last-child::before { display: none; }
+  .vision-photos.vision-photos--right { display: none; }
+  .vision-center { padding: 40px 6vw; }
+  .vision-founders { gap: 32px; }
+
+  .nav-links { display: none; }
+
   .activities-grid {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
-    grid-template-rows: auto auto;
-    gap: 1.5rem;
+    grid-template-columns: 1fr;
   }
-  .activity-card {
-    background: var(--mist);
-    border: 1px solid rgba(192,122,58,0.1);
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: none;
-  }
-  .activity-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(45,27,14,0.1);
-  }
-  .activity-card.featured { grid-row: 1 / 3; }
-  .activity-thumb {
-    height: 180px;
-    background: var(--umber);
-    position: relative;
-    overflow: hidden;
-  }
-  .activity-card.featured .activity-thumb { height: 280px; }
-  .activity-thumb-pattern {
-    position: absolute;
-    inset: 0;
-    background-image: repeating-linear-gradient(
-      -45deg,
-      rgba(255,255,255,0.03) 0px,
-      rgba(255,255,255,0.03) 1px,
-      transparent 1px,
-      transparent 16px
-    );
-  }
-  .activity-thumb-label {
-    position: absolute;
-    top: 1rem; left: 1rem;
-    background: var(--amber);
-    font-family: var(--font-sans);
-    font-size: 0.58rem;
-    font-weight: 400;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--white);
-    padding: 0.3rem 0.7rem;
-  }
-  .activity-content { padding: 1.5rem; }
-  .activity-date {
-    font-family: var(--font-sans);
-    font-size: 0.62rem;
-    font-weight: 300;
-    letter-spacing: 0.12em;
-    color: var(--amber);
-    margin-bottom: 0.5rem;
-  }
-  .activity-title {
-    font-family: var(--font-serif);
-    font-size: 1.05rem;
-    font-weight: 400;
-    color: var(--earth);
-    line-height: 1.5;
-    margin-bottom: 0.6rem;
-  }
-  .activity-card.featured .activity-title {
-    font-size: 1.3rem;
-  }
-  .activity-body {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 300;
-    line-height: 1.8;
-    color: #7a6a5a;
-  }
+  .activity-card:first-child { grid-column: 1; }
+  .activity-card-img,
+  .activity-card:first-child .activity-card-img { aspect-ratio: 4/3; }
 
-  /* ===== CTA SECTION ===== */
-  .section-cta {
-    background: var(--earth);
-    padding: 9rem 3rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .section-cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(ellipse at center, rgba(192,122,58,0.12) 0%, transparent 65%);
-  }
-  .cta-inner { position: relative; z-index: 1; }
-  .cta-eyebrow {
-    font-family: var(--font-sans);
-    font-size: 0.62rem;
-    font-weight: 300;
-    letter-spacing: 0.3em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 2rem;
-  }
-  .cta-heading {
-    font-family: var(--font-serif);
-    font-size: clamp(2.2rem, 4vw, 4rem);
-    font-weight: 300;
-    color: var(--white);
-    line-height: 1.3;
-    margin-bottom: 1.5rem;
-  }
-  .cta-heading em { font-style: italic; color: var(--gold); }
-  .cta-sub {
-    font-family: var(--font-sans);
-    font-size: 0.82rem;
-    font-weight: 300;
-    line-height: 2;
-    color: rgba(255,255,255,0.5);
-    max-width: 500px;
-    margin: 0 auto 3.5rem;
-  }
-  .cta-actions {
-    display: flex;
-    gap: 1.5rem;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .btn-outline {
-    font-family: var(--font-sans);
-    font-size: 0.72rem;
-    font-weight: 300;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.7);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 1rem 2.5rem;
-    text-decoration: none;
-    cursor: none;
-    transition: border-color 0.3s, color 0.3s;
-  }
-  .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+  .partners-head { flex-direction: column; gap: 10px; }
+  .partners-head p { text-align: left; }
+  .partners-grid { grid-template-columns: repeat(2, 1fr); }
 
-  /* ===== FOOTER ===== */
-  footer {
-    background: var(--ink);
-    padding: 4rem 3rem 2.5rem;
-  }
-  .footer-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: 4rem;
-    padding-bottom: 3rem;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-    margin-bottom: 2rem;
-  }
-  .footer-brand {}
-  .footer-logo {
-    font-family: var(--font-serif);
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--white);
-    letter-spacing: 0.06em;
-    margin-bottom: 1rem;
-    display: block;
-  }
-  .footer-tagline {
-    font-family: var(--font-serif);
-    font-size: 0.78rem;
-    font-weight: 300;
-    font-style: italic;
-    color: rgba(255,255,255,0.3);
-    line-height: 1.8;
-  }
-  .footer-col-title {
-    font-family: var(--font-sans);
-    font-size: 0.6rem;
-    font-weight: 400;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--amber);
-    margin-bottom: 1.2rem;
-  }
-  .footer-links { list-style: none; }
-  .footer-links li + li { margin-top: 0.6rem; }
-  .footer-links a {
-    font-family: var(--font-sans);
-    font-size: 0.75rem;
-    font-weight: 300;
-    color: rgba(255,255,255,0.4);
-    text-decoration: none;
-    transition: color 0.3s;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  .footer-links a:hover { color: rgba(255,255,255,0.7); }
-  .footer-bottom {
-    max-width: 1100px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  .footer-copy {
-    font-family: var(--font-sans);
-    font-size: 0.65rem;
-    font-weight: 300;
-    color: rgba(255,255,255,0.2);
-    letter-spacing: 0.08em;
-  }
-  .footer-region {
-    font-family: var(--font-serif);
-    font-size: 0.72rem;
-    font-weight: 300;
-    font-style: italic;
-    color: rgba(255,255,255,0.2);
-  }
+  .news-item { grid-template-columns: 90px 1fr; }
+  .news-arrow { display: none; }
 
-  /* ===== ANIMATIONS ===== */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-  .reveal-delay-4 { transition-delay: 0.4s; }
+  .activities-header { flex-direction: column; gap: 6px; }
+}
 
-  /* ===== RESPONSIVE ===== */
-  @media (max-width: 900px) {
-    .vision-inner { grid-template-columns: 1fr; gap: 3rem; }
-    .problem-grid { grid-template-columns: 1fr; }
-    .answer-pillars { grid-template-columns: 1fr; }
-    .members-grid { grid-template-columns: repeat(2, 1fr); }
-    .activities-grid { grid-template-columns: 1fr; }
-    .footer-inner { grid-template-columns: 1fr 1fr; gap: 2.5rem; }
-    nav { padding: 1.2rem 1.5rem; }
-    .hero-content { padding: 0 1.5rem 5rem 3rem; }
-    .hero-bg-text { display: none; }
-    .section-vision, .section-problem, .section-answer,
-    .section-members, .section-activities, .section-cta { padding: 5rem 1.5rem; }
-  }
-  @media (max-width: 600px) {
-    .nav-links { display: none; }
-    .members-grid { grid-template-columns: repeat(2, 1fr); }
-    .members-header, .activities-header { flex-direction: column; align-items: flex-start; gap: 1rem; }
-    .footer-inner { grid-template-columns: 1fr; }
-    body { cursor: auto; }
-    .cursor, .cursor-ring { display: none; }
-  }
+@media (prefers-reduced-motion: reduce) {
+  .vp-slide { transition: none; }
+  .activity-card-img { transition: none; }
+}
 
-  /* ===== HERO SLIDESHOW ===== */
-  .hero-slides {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
+/* ============================================
+   CONCEPT
+   ============================================ */
+.concept {
+  background: var(--white);
+  padding: var(--gap) 4vw;
+}
+.concept-inner {
+  max-width: var(--col);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+}
+.concept-img {
+  overflow: hidden;
+  border-radius: 2px;
+}
+.concept-img img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+.concept-img:hover img {
+  transform: scale(1.03);
+}
+.concept-text h2 {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(1.5rem, 2.6vw, 2.2rem);
+  line-height: 1.5;
+  margin-bottom: 24px;
+  letter-spacing: 0.03em;
+}
+.concept-text p {
+  font-size: 0.88rem;
+  color: var(--mid);
+  line-height: 2.0;
+  margin-bottom: 16px;
+}
+.concept-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--forest);
+  margin-top: 16px;
+  border-bottom: 1px solid var(--forest);
+  padding-bottom: 2px;
+  transition: opacity 0.2s;
+  letter-spacing: 0.04em;
+}
+.concept-link:hover { opacity: 0.65; }
+.concept-link::after { content: ' →'; }
+
+/* ============================================
+   CMS
+   ============================================ */
+.cms-empty {
+  max-width: var(--col);
+  margin: 0 auto;
+  padding: 32px 4vw var(--gap);
+  font-size: 0.82rem;
+  color: var(--faint);
+}
+.news-list + .cms-empty { padding: 24px 0 0; }
+.activity-card-img--blank { background: #2a2a26; opacity: 1; }
+.activity-card-body p.activity-tag:empty { display: none; }
+
+@media (max-width: 768px) {
+  .concept-inner {
+    grid-template-columns: 1fr;
+    gap: 32px;
   }
-  .hero-slide {
-    position: absolute;
-    inset: 0;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 1.4s ease;
-  }
-  .hero-slide.active { opacity: 1; }
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    z-index: 1;
-    background: linear-gradient(
-      160deg,
-      rgba(26,18,8,0.72) 0%,
-      rgba(45,27,14,0.55) 50%,
-      rgba(26,18,8,0.4) 100%
-    );
-  }
-  .hero-pattern { z-index: 2; }
-  .hero-line { z-index: 2; }
-  .hero-bg-text { z-index: 2; }
-  .hero-content { z-index: 3; }
-  .scroll-indicator { z-index: 3; }
-  /* Slide indicators */
-  .slide-indicators {
-    position: absolute;
-    bottom: 2.5rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 0.6rem;
-    z-index: 4;
-  }
-  .slide-dot {
-    width: 28px; height: 2px;
-    background: rgba(255,255,255,0.25);
-    border: none;
-    cursor: none;
-    padding: 0;
-    transition: background 0.4s ease, width 0.4s ease;
-  }
-  .slide-dot.active {
-    background: var(--amber);
-    width: 48px;
-  }
+}
 
 </style>
-  <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+<script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 </head>
 <body>
 
-<!-- Custom cursor -->
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
-
-<!-- Navigation -->
-<nav id="nav">
-  <a href="#" class="nav-logo">Craft Valley</a>
+<!-- NAV -->
+<nav class="nav scrolled" id="nav">
+  <div class="nav-logo">Craft Valley</div>
   <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#members">Members</a></li>
-    <li><a href="#activities">Activities</a></li>
-    <li><a href="#news">News</a></li>
-    <li><a href="#contact" class="nav-cta">Contact</a></li>
+    <li><a href="#concept">構想</a></li>
+    <li><a href="#vision">ビジョン</a></li>
+    <li><a href="#activities">活動実績</a></li>
+    <li><a href="#partners">連携先</a></li>
+    <li><a href="#news">お知らせ</a></li>
   </ul>
+  <a href="#contact" class="nav-cta">お問い合わせ</a>
 </nav>
 
-<!-- Hero Section -->
-<section class="hero" id="top">
-  <div class="hero-slides">
-    <div class="hero-slide active" style="background-image: url('/images/hero1.jpg');"></div>
-    <div class="hero-slide" style="background-image: url('/images/hero2.jpg');"></div>
-    <div class="hero-slide" style="background-image: url('/images/hero3.webp');"></div>
-  </div>
-  <div class="hero-overlay"></div>
-  <div class="hero-pattern"></div>
-  <div class="hero-line"></div>
-  <div class="hero-bg-text">飛能越</div>
-  <div class="hero-content">
-    <div class="hero-eyebrow">飛能越地域ブランドプロジェクト</div>
-    <h1 class="hero-title">
-      From <em>Hinōetsu</em><br>
-      to the World.
-    </h1>
-    <p class="hero-subtitle">飛能越から、世界へ。</p>
-    <p class="hero-desc">
-      飛騨・能登・越中に息づく工芸の技と文化を、<br>
-      世界へつなぐ。地域にいながら、世界と挑戦できる仕組みをつくる。<br>
-      それが、Craft Valley のビジョンです。
-    </p>
-    <div class="hero-actions">
-      <a href="#about" class="btn-primary">プロジェクトについて</a>
-      <a href="#activities" class="btn-ghost">活動を見る</a>
-    </div>
-  </div>
-  <!-- Slide indicators -->
-  <div class="slide-indicators">
-    <button class="slide-dot active" data-index="0"></button>
-    <button class="slide-dot" data-index="1"></button>
-    <button class="slide-dot" data-index="2"></button>
-  </div>
-  <div class="scroll-indicator">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
-</section>
+<!-- VISION -->
+<section class="vision" id="vision">
+  <div class="vision-stage">
 
-<!-- Vision Section -->
-<section class="section-vision" id="about">
-  <div class="vision-inner">
-    <div class="vision-left reveal">
-      <div class="section-label">Our Vision</div>
-      <blockquote class="vision-quote">
-        地方から、<em>直接</em><br>
-        世界へ挑戦できる<br>
-        時代がきた。
-      </blockquote>
-      <div class="vision-stat">
-        <div class="stat-item">
-          <div class="stat-num">3</div>
-          <div class="stat-label">地域（飛騨・能登・越中）</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">∞</div>
-          <div class="stat-label">世界への可能性</div>
-        </div>
-        <div class="stat-item">
-          <div class="stat-num">1</div>
-          <div class="stat-label">つながる仕組み</div>
-        </div>
+    <!-- 左スライドショー -->
+    <div class="vision-photos" id="vpLeft">
+      <div class="vp-slide active">
+        <img src="/images/vision1.jpg" alt="飛騨合掌造りの集落">
+      </div>
+      <div class="vp-slide">
+        <img src="/images/vision2.jpg" alt="籠編み職人">
+      </div>
+      <div class="vp-slide">
+        <img src="/images/vision3.webp" alt="高岡鋳物職人">
       </div>
     </div>
-    <div class="vision-right reveal reveal-delay-2">
-      <div class="section-label vision-title">我々のビジョン</div>
-      <div class="vision-text-block">
-        <p>飛騨の木工、越中（高岡）の鋳物、能登の漆器——飛能越が誇る工芸は、いずれも世界に通用する技術と美意識を持っている。しかしその価値は、いまだ十分に世界へ届いていない。</p>
-        <p>私たちのビジョンは、「飛能越の工芸・文化・人材が、東京を経由せず直接世界市場と繋がれる仕組みをつくる」ことにある。</p>
-        <p>地方から世界へ挑戦することは、もはや夢物語ではない。インターネットと国際交流の発達により、産地から直接バイヤーと繋がり、SNSで世界中の消費者に届き、国際展示に参加して現地でブランドを育てることが可能な時代になった。</p>
-        <p>Craft Valleyは、その可能性を現実のものにするための「仕組み」であり「場」である。飛能越三地域を一つのブランドとして束ね、地域にいながら世界と戦える選択肢を生み出すことで、「挑戦するなら東京へ」という意識を変え、この地域を「挑戦できる場所」として次世代に残すことを目指す。</p>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- Problem Section -->
-<section class="section-problem">
-  <div class="problem-inner">
-    <div class="section-label reveal">The Challenge</div>
-    <h2 class="problem-heading reveal">
-      素晴らしい価値が、<br>
-      <em>まだ世界へ届いていない。</em>
-    </h2>
-    <p class="problem-lead reveal">飛能越には世界に通用する価値がある。しかし構造的な三つの障壁——「東京を経由しなければ挑戦できない」という前提、販路・国際接点の不足、地域横断の連携欠如——が、その価値を世界へ届けることを妨げている。</p>
-    <div class="problem-grid">
-      <div class="problem-card reveal reveal-delay-1">
-        <div class="problem-num">01</div>
-        <div class="problem-title">「地方から挑戦できない」という構造的前提</div>
-        <p class="problem-body">「本気でやるなら、まず東京へ」——この言葉が、飛能越の若者・アーティスト・起業家・地域企業の間に当たり前のものとして根付いている。高度な情報、質の高い人脈、スケールのある仕事、世界との接点はすべて首都圏にあるという前提が、地域の可能性を入り口で閉じてしまっている。これは伝統産業の後継者問題に限らない。新しいビジネスを起こしたい若者も、作品を世界に届けたいアーティストも、海外市場を目指す地域企業も、東京を経由しなければ世界に出られないという構造の中に置かれている。</p>
-      </div>
-      <div class="problem-card reveal reveal-delay-2">
-        <div class="problem-num">02</div>
-        <div class="problem-title">販路・国際接点の不足</div>
-        <p class="problem-body">飛能越の工芸品は、海外の目利きにも十分通用する品質を持っている。しかし職人や地域事業者の多くは、海外のバイヤーやメディアと繋がる手段を持っていない。国際展示への参加にはコスト・語学・人脈が必要で、小規模事業者が独力で整えることは現実的ではない。国内市場の縮小が続くなか、海外への出口のないまま経営が圧迫されている。</p>
-      </div>
-      <div class="problem-card reveal reveal-delay-3">
-        <div class="problem-num">03</div>
-        <div class="problem-title">地域横断の連携・発信の欠如</div>
-        <p class="problem-body">飛騨・越中・能登はそれぞれ行政区域も異なり、個別に動いているため発信力が弱い。「飛能越」としてひとつのブランドで世界に出る仕組みが存在しない。しかし裏を返せば、三地域が束まったとき、工芸・文化・自然が重なる唯一の産地圏として、大きな訴求力を持つポテンシャルがある。</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- Our Answer Section -->
-<section class="section-answer" id="concept">
-  <div class="answer-inner">
-    <div class="reveal">
-      <div class="section-label" style="justify-content: center;">Our Answer</div>
-      <h2 class="answer-heading">
-        それが——<br><em>Craft Valley</em> です。
+    <!-- 中央テキスト -->
+    <div class="vision-center">
+      <span class="section-label">Our Vision</span>
+      <h2 id="vision-heading">
+        飛能越には、<br>
+        世界に通用する<br>
+        価値がある。
       </h2>
-      <p class="answer-sub">
-        「飛能越」を一つのブランドとして束ね、海外展示・販路開拓・情報発信を一体的に行うことで、地域にいながら世界市場と直接繋がれる回路を整備する。
+      <p class="vision-p">
+        飛騨の木工、越中の鋳物、能登の漆器。この地域には、数百年かけて磨かれてきた工芸の技と文化が生きています。しかし現状では、若者の流出・販路の不足により、その価値は十分に届いていません。
       </p>
+      <p class="vision-p">
+        地方から直接世界へ挑戦できる時代が来ました。Craft Valleyは「飛能越から世界へ」をコンセプトに、地域にいながら世界と繋がる仕組みをつくります。
+      </p>
+      <!-- ファウンダー -->
+      <div class="vision-founders" id="founders">
+        <div class="founder">
+          <div class="founder-photo">
+            <!-- <img src="images/member-masumoto.jpg" alt="桝本博之"> -->
+            👤
+          </div>
+          <div class="founder-name">桝本 博之</div>
+          <div class="founder-role">Co-Founder / Producer</div>
+        </div>
+        <div class="founder">
+          <div class="founder-photo">
+            <!-- <img src="images/member-horiguchi.webp" alt="堀口正裕"> -->
+            👤
+          </div>
+          <div class="founder-name">堀口 正裕</div>
+          <div class="founder-role">Co-Founder / Artisan</div>
+        </div>
+      </div>
     </div>
-    <div class="answer-pillars">
-      <div class="pillar reveal reveal-delay-1">
-        <div class="pillar-icon">展示</div>
-        <div class="pillar-title">国際展示・海外展開支援</div>
-        <div class="pillar-issue">課題② 販路不足への対応</div>
-        <p class="pillar-body">海外フェア・展示会への出展を組織的に行い、現地バイヤーとの商談・メディア露出の機会を地域事業者に提供する。個社では難しい海外参入を、Craft Valleyが束ねてコスト・リスクを分散する。</p>
+
+    <!-- 右スライドショー（1枚ずらして開始） -->
+    <div class="vision-photos vision-photos--right" id="vpRight">
+      <div class="vp-slide">
+        <img src="/images/vision4.jpg" alt="工芸品・陶器">
       </div>
-      <div class="pillar reveal reveal-delay-2">
-        <div class="pillar-icon">挑戦</div>
-        <div class="pillar-title">担い手・企業への挑戦の機会創出</div>
-        <div class="pillar-issue">課題① 地方から挑戦できない構造への対応</div>
-        <p class="pillar-body">若者や起業家に対して、地域内で起業家育成プログラムや海外研修の機会を提供する。アーティストや地域企業については、海外進出支援を一体的に行い、「地方にいながら世界に出る」選択肢を実質的なものにする。インターンシップ・副業連携を通じた外部人材の流入も同時に促進する。</p>
+      <div class="vp-slide active">
+        <img src="/images/vision5.jpg" alt="七宝焼き">
       </div>
-      <div class="pillar reveal reveal-delay-3">
-        <div class="pillar-icon">発信</div>
-        <div class="pillar-title">飛能越ブランドの構築と情報発信</div>
-        <div class="pillar-issue">課題③ 連携・発信力の強化</div>
-        <p class="pillar-body">三地域を横断する「Craft Valley」ブランドのもと、工芸・文化・自然の魅力を国内外へ一体的に発信する。メディア連携・SNS・国際PRを通じ、飛能越を「知られる地域」へと変えていく。</p>
+      <div class="vp-slide">
+        <img src="/images/vision2.jpg" alt="籠編み職人">
       </div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- CONCEPT -->
+<section class="concept" id="concept">
+  <div class="concept-inner">
+    <div class="concept-img">
+      <img id="concept-image" src="/images/vision1.jpg" alt="飛騨合掌造りの集落">
+    </div>
+    <div class="concept-text">
+      <span class="section-label">Craft Valley 構想とは</span>
+      <h2 id="concept-heading">飛騨・越中・能登から、<br>世界へ。</h2>
+      <p class="concept-p">
+        「飛能越（ひのえつ）」とは、飛騨（岐阜県北部）・越中（富山県）・能登（石川県能登半島）の三地域をひとつのまとまりとして捉えた呼び方です。この地域には、高岡の銅器・鋳物、飛騨の木工・家具、能登の漆器・輪島塗など、数百年にわたって受け継がれてきた工芸の技が今も息づいています。
+      </p>
+      <p class="concept-p">
+        しかし現状では、若者の都市部への流出・国内外の販路不足・世界との接点の少なさにより、地域の価値は十分に届いていません。「挑戦するなら東京へ」という考え方が根強く残っています。
+      </p>
+      <p class="concept-p">
+        Craft Valley（クラフトバレー）は、飛能越地域の工芸・文化・人材を世界市場へつなぐブランドプロジェクトです。ミラノ・パリ・ニューヨークなど海外展示への参加支援、現地バイヤーとのマッチング、国際メディアへの発信を通じて、「地方にいながら世界と戦える」仕組みをつくります。
+      </p>
+      <a href="/vision" class="concept-link">プロジェクトの詳細を読む</a>
     </div>
   </div>
 </section>
 
-<!-- Members Preview -->
-<section class="section-members" id="members">
-  <div class="members-inner">
-    <div class="members-header">
-      <div class="reveal">
-        <div class="section-label">Members & Partners</div>
-        <h2 class="members-title">
-          信頼は、人から<br>生まれる。
-        </h2>
+<!-- ACTIVITIES -->
+<section class="activities" id="activities">
+  <div class="activities-header">
+    <span class="section-label" style="margin-bottom:0;">Activities</span>
+    <h2>活動実績</h2>
+    <a href="/activities" class="see-all">すべて見る</a>
+  </div>
+
+  <div class="activities-grid" id="activities-grid"></div>
+  <p class="cms-empty" id="activities-empty" hidden>活動実績は準備中です。</p>
+</section>
+
+<!-- PARTNERS -->
+<section class="partners" id="partners">
+  <div class="partners-head">
+    <div>
+      <span class="section-label" style="margin-bottom:8px;">Partners</span>
+      <h2>連携先・協力機関</h2>
+    </div>
+    <p id="partners-lead">行政・商工会・企業・大学など、<br>飛能越を支えるパートナーとともに活動しています。</p>
+  </div>
+
+  <div class="partners-grid" id="partners-grid">
+    <div class="partner-item partner-item--open"><div class="partner-placeholder">+ 募集中</div><span class="partner-name">パートナー募集</span></div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section class="news-section" id="news">
+  <div class="news-inner">
+    <div class="news-head">
+      <div>
+        <span class="section-label" style="margin-bottom:8px;">News</span>
+        <h2>お知らせ</h2>
       </div>
-      <a href="#" class="link-more reveal">全員を見る →</a>
+      <a href="/news" class="see-all">一覧</a>
     </div>
-    <div class="members-grid" id="members-grid"><div class="member-skeleton"></div></div>
+    <div class="news-list" id="news-list"></div>
+    <p class="cms-empty" id="news-empty" hidden>お知らせは準備中です。</p>
   </div>
 </section>
 
-<!-- Activities Preview -->
-<section class="section-activities" id="activities">
-  <div class="activities-inner">
-    <div class="activities-header">
-      <div class="reveal">
-        <div class="section-label">Activities</div>
-        <h2 class="members-title">活動・実績</h2>
-      </div>
-      <a href="#" class="link-more reveal">すべての活動を見る →</a>
-    </div>
-    <div class="activities-grid" id="activities-grid"><div class="activity-skeleton"></div></div>
-  </div>
+<!-- CTA -->
+<section class="cta-strip" id="contact">
+  <h2 id="cta-heading">参画・連携のご相談は<br>お気軽にどうぞ。</h2>
+  <p id="cta-sub">行政・企業・メディア・クリエイターの方々からのご連絡をお待ちしています。</p>
+  <a href="mailto:info@craft-valley.jp" class="btn-primary" id="cta-btn">お問い合わせ</a>
 </section>
 
-<!-- CTA Section -->
-<section class="section-cta" id="contact">
-  <div class="cta-inner reveal">
-    <div class="cta-eyebrow">Join Us / Contact</div>
-    <h2 class="cta-heading">
-      共に、飛能越から<br>
-      <em>世界へ挑戦しませんか。</em>
-    </h2>
-    <p class="cta-sub">
-      行政・事業者・企業・メディア——さまざまな形での参画・連携をお待ちしています。
-      まずはお気軽にご連絡ください。
-    </p>
-    <div class="cta-actions">
-      <a href="#" class="btn-primary">お問い合わせ・参画のご相談</a>
-      <a href="#" class="btn-outline">資料ダウンロード</a>
-    </div>
-  </div>
-</section>
-
-<!-- Footer -->
+<!-- FOOTER -->
 <footer>
   <div class="footer-inner">
-    <div class="footer-brand">
-      <span class="footer-logo">Craft Valley</span>
-      <p class="footer-tagline">飛能越の工芸と文化を、<br>世界へつなぐブランドプロジェクト。</p>
-    </div>
     <div>
-      <div class="footer-col-title">Navigation</div>
-      <ul class="footer-links">
-        <li><a href="#">About / クラフトバレーとは</a></li>
-        <li><a href="#">Members / メンバー</a></li>
-        <li><a href="#">Activities / 活動内容</a></li>
-        <li><a href="#">News / ニュース</a></li>
-      </ul>
+      <div class="footer-logo">Craft Valley</div>
+      <div class="footer-sub" id="footer-sub">飛騨・越中・能登 地域ブランドプロジェクト</div>
     </div>
-    <div>
-      <div class="footer-col-title">Region</div>
-      <ul class="footer-links">
-        <li><a href="#">飛騨（岐阜県）</a></li>
-        <li><a href="#">能登（石川県）</a></li>
-        <li><a href="#">越中（富山県）</a></li>
-      </ul>
-    </div>
-    <div>
-      <div class="footer-col-title">Contact</div>
-      <ul class="footer-links">
-        <li><a href="#">参画・連携のご相談</a></li>
-        <li><a href="#">メディア・取材</a></li>
-        <li><a href="#">スポンサーシップ</a></li>
-        <li><a href="#">プレスリリース</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <span class="footer-copy">© 2025 Craft Valley. All rights reserved.</span>
-    <span class="footer-region">Hida · Noto · Etchu, Japan</span>
+    <p class="footer-copy" id="footer-copy">© 2025 Craft Valley. All rights reserved.</p>
   </div>
 </footer>
 
 <script>
-  // ===== CURSOR =====
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-  function animCursor() {
-    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
-    requestAnimationFrame(animCursor);
-  }
-  animCursor();
-  document.querySelectorAll('a, button, .pillar, .member-card, .activity-card').forEach(el => {
-    el.addEventListener('mouseenter', () => { cursor.classList.add('expand'); ring.classList.add('expand'); });
-    el.addEventListener('mouseleave', () => { cursor.classList.remove('expand'); ring.classList.remove('expand'); });
-  });
+// Nav は常にscrolled（ヒーローなし）
 
-  // ===== NAV SCROLL =====
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
-
-  // ===== REVEAL ON SCROLL =====
-  const revealEls = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  revealEls.forEach(el => observer.observe(el));
-
-  // ===== HERO SLIDESHOW =====
-  const slides = document.querySelectorAll('.hero-slide');
-  const dots = document.querySelectorAll('.slide-dot');
-  let current = 0, slideInterval;
-
-  function goToSlide(n) {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = (n + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
+// Vision slideshow — 左右それぞれ独立
+(function () {
+  function initSlider(id, intervalMs) {
+    const container = document.getElementById(id);
+    if (!container) return;
+    setInterval(() => {
+      const slides = Array.from(container.querySelectorAll('.vp-slide'));
+      if (slides.length < 2) return;
+      let cur = slides.findIndex(s => s.classList.contains('active'));
+      if (cur < 0) cur = 0;
+      slides[cur].classList.remove('active');
+      cur = (cur + 1) % slides.length;
+      slides[cur].classList.add('active');
+    }, intervalMs);
   }
 
-  function startSlideshow() {
-    slideInterval = setInterval(() => goToSlide(current + 1), 5000);
-  }
-
-  dots.forEach(dot => {
-    dot.addEventListener('click', () => {
-      clearInterval(slideInterval);
-      goToSlide(parseInt(dot.dataset.index));
-      startSlideshow();
-    });
-  });
-
-  startSlideshow();
-
+  initSlider('vpLeft',  3800);
+  initSlider('vpRight', 4400); // 少しずらしてリズムを出す
+})();
 </script>
 
 <script>
-// ── 設定（リポジトリ情報） ───────────────────────────────────
+// ============================================
+// CMS（Decap CMS）で編集した内容を読み込む
+// ============================================
 const GITHUB = {
   owner: 'hina314ry-dev',
   repo:  'craft-valley-domestic',
@@ -1388,7 +804,6 @@ const GITHUB = {
   raw: 'https://raw.githubusercontent.com/hina314ry-dev/craft-valley-domestic/main',
 };
 
-// ── ユーティリティ ───────────────────────────────────────────
 const fetchJSON = url => fetch(url).then(r => r.ok ? r.json() : null).catch(() => null);
 
 // フォルダ内のJSONファイル一覧をGitHub APIで取得→内容を取得
@@ -1397,140 +812,120 @@ async function fetchFolder(folder) {
   if (!files || !Array.isArray(files)) return [];
   const jsonFiles = files.filter(f => f.name.endsWith('.json'));
   const contents = await Promise.all(
-    jsonFiles.map(f => fetchJSON(`${GITHUB.raw}/${folder}/${f.name}`))
+    jsonFiles.map(f => fetchJSON(`${GITHUB.raw}/${folder}/${encodeURIComponent(f.name)}`))
   );
   return contents.filter(Boolean);
 }
 
-// ── スライドショー ───────────────────────────────────────────
-fetchJSON(`${GITHUB.raw}/content/settings/slides.json`).then(data => {
-  if (!data?.slides) return;
-  const container = document.querySelector('.hero-slides');
-  if (!container) return;
-  container.innerHTML = data.slides.map((s, i) =>
-    `<div class="hero-slide${i===0?' active':''}" style="background-image:url('${s.image}');background-size:cover;background-position:center;"></div>`
-  ).join('');
-  const dotsEl = document.querySelector('.slide-indicators');
-  if (dotsEl) {
-    dotsEl.innerHTML = data.slides.map((_, i) =>
-      `<button class="slide-dot${i===0?' active':''}" data-index="${i}"></button>`
-    ).join('');
-    dotsEl.querySelectorAll('.slide-dot').forEach(dot => {
-      dot.addEventListener('click', () => {
-        clearInterval(window._slideInterval);
-        goToSlide(parseInt(dot.dataset.index));
-        startSlideshow();
-      });
-    });
-  }
-});
+const esc = v => String(v ?? '').replace(/[&<>"']/g, c =>
+  ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+// 改行を<br>にして表示
+const multiline = v => esc(v).replace(/\n/g, '<br>');
 
 // ── サイト文言 ───────────────────────────────────────────────
 fetchJSON(`${GITHUB.raw}/content/settings/site.json`).then(d => {
   if (!d) return;
-  const set = (sel, key) => {
-    const el = document.querySelector(sel);
-    if (el && d[key]) el.textContent = d[key];
+  const html = (id, key) => {
+    const el = document.getElementById(id);
+    if (el && d[key]) el.innerHTML = multiline(d[key]);
   };
-  set('.hero-eyebrow', 'hero_eyebrow');
-  set('.hero-subtitle', 'hero_title_ja');
-  set('.hero-desc', 'hero_description');
-  set('.btn-primary', 'hero_btn_primary');
-  set('.vision-quote', 'vision_quote');
-  set('.vision-title', 'vision_title');
-  set('.problem-lead', 'problem_summary');
-  const vParas = document.querySelectorAll('.vision-text-block p');
-  ['vision_p1','vision_p2','vision_p3','vision_p4'].forEach((k,i) => {
-    if (vParas[i] && d[k]) vParas[i].textContent = d[k];
+  html('vision-heading', 'vision_heading');
+  html('concept-heading', 'concept_heading');
+  html('partners-lead', 'partners_lead');
+  html('cta-heading', 'cta_heading');
+  html('cta-sub', 'cta_sub');
+  html('footer-sub', 'footer_sub');
+  html('footer-copy', 'footer_copyright');
+  document.querySelectorAll('.vision-p').forEach((p, i) => {
+    if (d['vision_p' + (i + 1)]) p.textContent = d['vision_p' + (i + 1)];
   });
-  set('.cta-sub', 'cta_sub');
-  set('.footer-tagline', 'footer_tagline');
-  set('.footer-copy', 'footer_copyright');
-  const pTitles = document.querySelectorAll('.problem-title');
-  const pBodies = document.querySelectorAll('.problem-body');
-  ['problem1','problem2','problem3'].forEach((k,i) => {
-    if (pTitles[i] && d[k+'_title']) pTitles[i].textContent = d[k+'_title'];
-    if (pBodies[i] && d[k+'_body']) pBodies[i].textContent = d[k+'_body'];
+  document.querySelectorAll('.concept-p').forEach((p, i) => {
+    if (d['concept_p' + (i + 1)]) p.textContent = d['concept_p' + (i + 1)];
   });
-  const pTitles2 = document.querySelectorAll('.pillar-title');
-  const pBodies2 = document.querySelectorAll('.pillar-body');
-  const pIssues = document.querySelectorAll('.pillar-issue');
-  ['pillar1','pillar2','pillar3'].forEach((k,i) => {
-    if (pTitles2[i] && d[k+'_title']) pTitles2[i].textContent = d[k+'_title'];
-    if (pIssues[i] && d[k+'_issue']) pIssues[i].textContent = d[k+'_issue'];
-    if (pBodies2[i] && d[k+'_body']) pBodies2[i].textContent = d[k+'_body'];
-  });
-  const ah = document.querySelector('.answer-heading');
-  if (ah && d.answer_heading) ah.innerHTML = d.answer_heading.replace('Craft Valley', '<em>Craft Valley</em>');
-  const asub = document.querySelector('.answer-sub');
-  if (asub && d.answer_sub) asub.textContent = d.answer_sub;
-  const ch = document.querySelector('.cta-heading');
-  if (ch && d.cta_heading) ch.innerHTML = d.cta_heading.replace('挑戦しませんか。', '<em>挑戦しませんか。</em>');
+  const img = document.getElementById('concept-image');
+  if (img && d.concept_image) img.src = d.concept_image;
+  const btn = document.getElementById('cta-btn');
+  if (btn && d.cta_email) btn.href = `mailto:${d.cta_email}`;
+
+  const founders = document.getElementById('founders');
+  if (founders && Array.isArray(d.founders) && d.founders.length) {
+    founders.innerHTML = d.founders.map(f => `
+        <div class="founder">
+          <div class="founder-photo">${f.image ? `<img src="${esc(f.image)}" alt="${esc(f.name)}">` : '👤'}</div>
+          <div class="founder-name">${esc(f.name)}</div>
+          <div class="founder-role">${esc(f.role)}</div>
+        </div>`).join('');
+  }
 });
 
-// ── メンバー一覧（GitHub APIでフォルダを自動スキャン） ───────
-fetchFolder('content/members').then(members => {
-  const grid = document.getElementById('members-grid');
-  if (!grid || !members.length) return;
-  const active = members
-    .filter(m => m && m.active !== false)
-    .sort((a, b) => (a.order || 99) - (b.order || 99));
-  grid.innerHTML = active.map((m, i) => `
-    <div class="member-card reveal reveal-delay-${(i % 4) + 1}">
-      <div class="member-bg" style="${m.image
-        ? `background-image:url('${m.image}');background-size:cover;background-position:center top;`
-        : `background:var(--umber);`}">
-        <div class="member-bg-pattern"></div>
-      </div>
-      <div class="member-card-inner">
-        <div class="member-role">${m.role || ''}</div>
-        <div class="member-name">${m.title || ''}</div>
-        <div class="member-craft">${m.craft || ''}</div>
-      </div>
-    </div>
-  `).join('');
-  grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+// ── ビジョン左右の写真 ───────────────────────────────────────
+fetchJSON(`${GITHUB.raw}/content/settings/slides.json`).then(d => {
+  if (!d) return;
+  [['vpLeft', d.left, 0], ['vpRight', d.right, 1]].forEach(([id, list, start]) => {
+    const el = document.getElementById(id);
+    if (!el || !Array.isArray(list) || !list.length) return;
+    const first = start % list.length;
+    el.innerHTML = list.map((s, i) => `
+      <div class="vp-slide${i === first ? ' active' : ''}">
+        <img src="${esc(s.image)}" alt="${esc(s.alt)}">
+      </div>`).join('');
+  });
 });
 
-// ── 活動・実績（GitHub APIでフォルダを自動スキャン） ─────────
+// ── 活動実績 ─────────────────────────────────────────────────
 fetchFolder('content/activities').then(acts => {
   const grid = document.getElementById('activities-grid');
-  if (!grid || !acts.length) return;
-  const sorted = acts.sort((a, b) => (b.date || '').localeCompare(a.date || ''));
-  const featured = sorted.find(a => a.featured) || sorted[0];
-  const rest = sorted.filter(a => a !== featured).slice(0, 3);
-  let html = `
-    <div class="activity-card featured reveal">
-      <div class="activity-thumb" style="${featured.image
-        ? `background-image:url('${featured.image}');background-size:cover;`
-        : ''}">
-        <div class="activity-thumb-pattern"></div>
-        <div class="activity-thumb-label">${featured.type || ''}</div>
+  if (!grid) return;
+  if (!acts.length) { document.getElementById('activities-empty').hidden = false; return; }
+  acts.sort((a, b) => (b.featured === true) - (a.featured === true) ||
+    String(b.date || '').localeCompare(String(a.date || '')));
+  grid.innerHTML = acts.slice(0, 3).map(a => `
+    <article class="activity-card">
+      ${a.image
+        ? `<img class="activity-card-img" src="${esc(a.image)}" alt="${esc(a.title)}" loading="lazy">`
+        : '<div class="activity-card-img activity-card-img--blank"></div>'}
+      <div class="activity-card-body">
+        <p class="activity-tag">${esc([a.date, a.location].filter(Boolean).join(' · '))}</p>
+        <h3 class="activity-title">${esc(a.title)}</h3>
       </div>
-      <div class="activity-content">
-        <div class="activity-date">${featured.date || ''} · ${featured.type || ''}</div>
-        <div class="activity-title">${featured.title || ''}</div>
-        <p class="activity-body">${featured.body || ''}</p>
-      </div>
-    </div>`;
-  rest.forEach((a, i) => {
-    html += `
-    <div class="activity-card reveal reveal-delay-${i + 1}">
-      <div class="activity-thumb" style="height:140px;${a.image
-        ? `background-image:url('${a.image}');background-size:cover;`
-        : ''}">
-        <div class="activity-thumb-pattern"></div>
-        <div class="activity-thumb-label">${a.type || ''}</div>
-      </div>
-      <div class="activity-content">
-        <div class="activity-date">${a.date || ''} · ${a.type || ''}</div>
-        <div class="activity-title">${a.title || ''}</div>
-        <p class="activity-body">${a.body || ''}</p>
-      </div>
-    </div>`;
-  });
-  grid.innerHTML = html;
-  grid.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </article>`).join('');
+});
+
+// ── 連携先 ───────────────────────────────────────────────────
+fetchFolder('content/partners').then(partners => {
+  const grid = document.getElementById('partners-grid');
+  if (!grid || !partners.length) return;
+  partners.sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+  const items = partners.map(p => {
+    const inner = p.logo
+      ? `<img src="${esc(p.logo)}" alt="${esc(p.title)}" style="max-height:40px;width:auto;">`
+      : `<div class="partner-placeholder">${esc(p.title)}</div>`;
+    const tag = p.url ? 'a' : 'div';
+    const href = p.url ? ` href="${esc(p.url)}" target="_blank" rel="noopener"` : '';
+    return `<${tag} class="partner-item"${href}>${inner}<span class="partner-name">${esc(p.subtitle || '')}</span></${tag}>`;
+  }).join('');
+  grid.insertAdjacentHTML('afterbegin', items);
+});
+
+// ── お知らせ ─────────────────────────────────────────────────
+fetchFolder('content/news').then(news => {
+  const list = document.getElementById('news-list');
+  if (!list) return;
+  news = news.filter(n => n.published !== false)
+    .sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+  if (!news.length) { document.getElementById('news-empty').hidden = false; return; }
+  const fmt = v => { const t = new Date(v); return isNaN(t) ? esc(v) :
+    `${t.getFullYear()}.${String(t.getMonth() + 1).padStart(2, '0')}.${String(t.getDate()).padStart(2, '0')}`; };
+  list.innerHTML = news.slice(0, 5).map(n => {
+    const tag = n.link ? 'a' : 'div';
+    const href = n.link ? ` href="${esc(n.link)}"` : '';
+    return `
+      <${tag} class="news-item"${href}>
+        <span class="news-date">${fmt(n.date)}</span>
+        <span class="news-title">${esc(n.title)}</span>
+        <span class="news-arrow">${n.link ? '→' : ''}</span>
+      </${tag}>`;
+  }).join('');
 });
 </script>
 

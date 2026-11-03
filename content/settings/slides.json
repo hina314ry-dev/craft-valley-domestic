@@ -1,0 +1,30 @@
+{
+  "left": [
+    {
+      "image": "/images/vision1.jpg",
+      "alt": "飛騨合掌造りの集落"
+    },
+    {
+      "image": "/images/vision2.jpg",
+      "alt": "籠編み職人"
+    },
+    {
+      "image": "/images/vision3.webp",
+      "alt": "高岡鋳物職人"
+    }
+  ],
+  "right": [
+    {
+      "image": "/images/vision4.jpg",
+      "alt": "工芸品・陶器"
+    },
+    {
+      "image": "/images/vision5.jpg",
+      "alt": "七宝焼き"
+    },
+    {
+      "image": "/images/vision2.jpg",
+      "alt": "籠編み職人"
+    }
+  ]
+}
