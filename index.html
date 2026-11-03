@@ -487,6 +487,15 @@
     font-style: italic;
     color: var(--gold);
   }
+  .problem-lead {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 2.1;
+    color: rgba(255,255,255,0.6);
+    max-width: 760px;
+    margin: -2.5rem 0 4rem;
+  }
   .problem-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -602,6 +611,14 @@
     color: var(--earth);
     margin-bottom: 0.8rem;
     letter-spacing: 0.02em;
+  }
+  .pillar-issue {
+    font-family: var(--font-sans);
+    font-size: 0.65rem;
+    font-weight: 300;
+    letter-spacing: 0.08em;
+    color: var(--amber);
+    margin-bottom: 0.8rem;
   }
   .pillar-body {
     font-family: var(--font-sans);
@@ -1137,11 +1154,12 @@
       </div>
     </div>
     <div class="vision-right reveal reveal-delay-2">
-      <div class="section-label">Mission</div>
+      <div class="section-label vision-title">我々のビジョン</div>
       <div class="vision-text-block">
-        <p>飛能越地域には、世界に通用する工芸技術・文化・自然・人材が存在しています。漆器、陶磁器、染織、金工——数百年の歴史に裏打ちされた技と美意識は、世界のどこにも真似できない価値を持っています。</p>
-        <p>しかし現状では、若者の地域流出・販路不足・世界との接点不足といった課題が残り、「挑戦するなら東京へ」という考えが根強く残っています。</p>
-        <p>インターネットと国際交流が発達した今、地方から直接世界へ挑戦できる時代です。Craft Valley は「飛能越から世界へ」をコンセプトに、その仕組みをつくることを目指します。</p>
+        <p>飛騨の木工、越中（高岡）の鋳物、能登の漆器——飛能越が誇る工芸は、いずれも世界に通用する技術と美意識を持っている。しかしその価値は、いまだ十分に世界へ届いていない。</p>
+        <p>私たちのビジョンは、「飛能越の工芸・文化・人材が、東京を経由せず直接世界市場と繋がれる仕組みをつくる」ことにある。</p>
+        <p>地方から世界へ挑戦することは、もはや夢物語ではない。インターネットと国際交流の発達により、産地から直接バイヤーと繋がり、SNSで世界中の消費者に届き、国際展示に参加して現地でブランドを育てることが可能な時代になった。</p>
+        <p>Craft Valleyは、その可能性を現実のものにするための「仕組み」であり「場」である。飛能越三地域を一つのブランドとして束ね、地域にいながら世界と戦える選択肢を生み出すことで、「挑戦するなら東京へ」という意識を変え、この地域を「挑戦できる場所」として次世代に残すことを目指す。</p>
       </div>
     </div>
   </div>
@@ -1155,21 +1173,22 @@
       素晴らしい価値が、<br>
       <em>まだ世界へ届いていない。</em>
     </h2>
+    <p class="problem-lead reveal">飛能越には世界に通用する価値がある。しかし構造的な三つの障壁——「東京を経由しなければ挑戦できない」という前提、販路・国際接点の不足、地域横断の連携欠如——が、その価値を世界へ届けることを妨げている。</p>
     <div class="problem-grid">
       <div class="problem-card reveal reveal-delay-1">
         <div class="problem-num">01</div>
-        <div class="problem-title">若者の地域流出</div>
-        <p class="problem-body">「挑戦するなら都市へ」という意識が根強く、地域を担う若い世代が外へ向かい続けている。技術継承の危機が目前に迫っている。</p>
+        <div class="problem-title">「地方から挑戦できない」という構造的前提</div>
+        <p class="problem-body">「本気でやるなら、まず東京へ」——この言葉が、飛能越の若者・アーティスト・起業家・地域企業の間に当たり前のものとして根付いている。高度な情報、質の高い人脈、スケールのある仕事、世界との接点はすべて首都圏にあるという前提が、地域の可能性を入り口で閉じてしまっている。これは伝統産業の後継者問題に限らない。新しいビジネスを起こしたい若者も、作品を世界に届けたいアーティストも、海外市場を目指す地域企業も、東京を経由しなければ世界に出られないという構造の中に置かれている。</p>
       </div>
       <div class="problem-card reveal reveal-delay-2">
         <div class="problem-num">02</div>
-        <div class="problem-title">販路・接点の不足</div>
-        <p class="problem-body">優れた工芸品がありながら、世界の顧客と出会う機会が限られている。展示会・EC・メディア——つながる手段を持てていない作り手が多い。</p>
+        <div class="problem-title">販路・国際接点の不足</div>
+        <p class="problem-body">飛能越の工芸品は、海外の目利きにも十分通用する品質を持っている。しかし職人や地域事業者の多くは、海外のバイヤーやメディアと繋がる手段を持っていない。国際展示への参加にはコスト・語学・人脈が必要で、小規模事業者が独力で整えることは現実的ではない。国内市場の縮小が続くなか、海外への出口のないまま経営が圧迫されている。</p>
       </div>
       <div class="problem-card reveal reveal-delay-3">
         <div class="problem-num">03</div>
-        <div class="problem-title">挑戦機会の格差</div>
-        <p class="problem-body">地域にいることで、情報・資金・ネットワークへのアクセスが制限されてきた。しかし今、その格差を埋める手段は存在する。</p>
+        <div class="problem-title">地域横断の連携・発信の欠如</div>
+        <p class="problem-body">飛騨・越中・能登はそれぞれ行政区域も異なり、個別に動いているため発信力が弱い。「飛能越」としてひとつのブランドで世界に出る仕組みが存在しない。しかし裏を返せば、三地域が束まったとき、工芸・文化・自然が重なる唯一の産地圏として、大きな訴求力を持つポテンシャルがある。</p>
       </div>
     </div>
   </div>
@@ -1184,25 +1203,27 @@
         それが——<br><em>Craft Valley</em> です。
       </h2>
       <p class="answer-sub">
-        地域にいながら、世界とつながる仕組み。<br>
-        工芸・文化・産業・人をつなぎ、飛能越から世界へ価値を届けるプラットフォームです。
+        「飛能越」を一つのブランドとして束ね、海外展示・販路開拓・情報発信を一体的に行うことで、地域にいながら世界市場と直接繋がれる回路を整備する。
       </p>
     </div>
     <div class="answer-pillars">
       <div class="pillar reveal reveal-delay-1">
-        <div class="pillar-icon">発信</div>
-        <div class="pillar-title">世界への情報発信</div>
-        <p class="pillar-body">海外向けECサイト・展示会・メディアを通じて、飛能越の工芸品・文化を世界市場へ届けるチャネルを構築します。</p>
+        <div class="pillar-icon">展示</div>
+        <div class="pillar-title">国際展示・海外展開支援</div>
+        <div class="pillar-issue">課題② 販路不足への対応</div>
+        <p class="pillar-body">海外フェア・展示会への出展を組織的に行い、現地バイヤーとの商談・メディア露出の機会を地域事業者に提供する。個社では難しい海外参入を、Craft Valleyが束ねてコスト・リスクを分散する。</p>
       </div>
       <div class="pillar reveal reveal-delay-2">
-        <div class="pillar-icon">連携</div>
-        <div class="pillar-title">地域間・産業間の連携</div>
-        <p class="pillar-body">飛騨・能登・越中の事業者・職人・行政・企業をつなぎ、個では届かない場所へ、集合的な力で挑戦します。</p>
+        <div class="pillar-icon">挑戦</div>
+        <div class="pillar-title">担い手・企業への挑戦の機会創出</div>
+        <div class="pillar-issue">課題① 地方から挑戦できない構造への対応</div>
+        <p class="pillar-body">若者や起業家に対して、地域内で起業家育成プログラムや海外研修の機会を提供する。アーティストや地域企業については、海外進出支援を一体的に行い、「地方にいながら世界に出る」選択肢を実質的なものにする。インターンシップ・副業連携を通じた外部人材の流入も同時に促進する。</p>
       </div>
       <div class="pillar reveal reveal-delay-3">
-        <div class="pillar-icon">仕組</div>
-        <div class="pillar-title">継続できる仕組みづくり</div>
-        <p class="pillar-body">単発のイベントで終わらない、持続可能なビジネスモデルと運営体制を構築。地域から次世代へ引き継げる形を目指します。</p>
+        <div class="pillar-icon">発信</div>
+        <div class="pillar-title">飛能越ブランドの構築と情報発信</div>
+        <div class="pillar-issue">課題③ 連携・発信力の強化</div>
+        <p class="pillar-body">三地域を横断する「Craft Valley」ブランドのもと、工芸・文化・自然の魅力を国内外へ一体的に発信する。メディア連携・SNS・国際PRを通じ、飛能越を「知られる地域」へと変えていく。</p>
       </div>
     </div>
   </div>
@@ -1416,6 +1437,12 @@ fetchJSON(`${GITHUB.raw}/content/settings/site.json`).then(d => {
   set('.hero-desc', 'hero_description');
   set('.btn-primary', 'hero_btn_primary');
   set('.vision-quote', 'vision_quote');
+  set('.vision-title', 'vision_title');
+  set('.problem-lead', 'problem_summary');
+  const vParas = document.querySelectorAll('.vision-text-block p');
+  ['vision_p1','vision_p2','vision_p3','vision_p4'].forEach((k,i) => {
+    if (vParas[i] && d[k]) vParas[i].textContent = d[k];
+  });
   set('.cta-sub', 'cta_sub');
   set('.footer-tagline', 'footer_tagline');
   set('.footer-copy', 'footer_copyright');
@@ -1427,8 +1454,10 @@ fetchJSON(`${GITHUB.raw}/content/settings/site.json`).then(d => {
   });
   const pTitles2 = document.querySelectorAll('.pillar-title');
   const pBodies2 = document.querySelectorAll('.pillar-body');
+  const pIssues = document.querySelectorAll('.pillar-issue');
   ['pillar1','pillar2','pillar3'].forEach((k,i) => {
     if (pTitles2[i] && d[k+'_title']) pTitles2[i].textContent = d[k+'_title'];
+    if (pIssues[i] && d[k+'_issue']) pIssues[i].textContent = d[k+'_issue'];
     if (pBodies2[i] && d[k+'_body']) pBodies2[i].textContent = d[k+'_body'];
   });
   const ah = document.querySelector('.answer-heading');

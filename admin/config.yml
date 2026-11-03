@@ -21,23 +21,38 @@ collections:
           - { label: "メインボタン", name: "hero_btn_primary", widget: "string" }
           - { label: "サブリンク", name: "hero_btn_secondary", widget: "string" }
           - { label: "ビジョン大見出し", name: "vision_quote", widget: "text" }
+          - { label: "ビジョンタイトル", name: "vision_title", widget: "string" }
+          - { label: "ビジョン（叩き・サイト非表示）", name: "vision_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
           - { label: "ビジョン本文①", name: "vision_p1", widget: "text" }
           - { label: "ビジョン本文②", name: "vision_p2", widget: "text" }
           - { label: "ビジョン本文③", name: "vision_p3", widget: "text" }
+          - { label: "ビジョン本文④", name: "vision_p4", widget: "text" }
+          - { label: "課題の概要（叩き・サイト非表示）", name: "problem_summary_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
+          - { label: "課題の概要", name: "problem_summary", widget: "text" }
           - { label: "課題①タイトル", name: "problem1_title", widget: "string" }
+          - { label: "課題①（叩き・サイト非表示）", name: "problem1_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
           - { label: "課題①説明", name: "problem1_body", widget: "text" }
           - { label: "課題②タイトル", name: "problem2_title", widget: "string" }
+          - { label: "課題②（叩き・サイト非表示）", name: "problem2_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
           - { label: "課題②説明", name: "problem2_body", widget: "text" }
           - { label: "課題③タイトル", name: "problem3_title", widget: "string" }
+          - { label: "課題③（叩き・サイト非表示）", name: "problem3_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
           - { label: "課題③説明", name: "problem3_body", widget: "text" }
           - { label: "Our Answer見出し", name: "answer_heading", widget: "string" }
-          - { label: "Our Answer説明", name: "answer_sub", widget: "text" }
-          - { label: "柱①タイトル", name: "pillar1_title", widget: "string" }
-          - { label: "柱①説明", name: "pillar1_body", widget: "text" }
-          - { label: "柱②タイトル", name: "pillar2_title", widget: "string" }
-          - { label: "柱②説明", name: "pillar2_body", widget: "text" }
-          - { label: "柱③タイトル", name: "pillar3_title", widget: "string" }
-          - { label: "柱③説明", name: "pillar3_body", widget: "text" }
+          - { label: "取り組みの概要（叩き・サイト非表示）", name: "answer_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
+          - { label: "取り組みの概要（Our Answer説明）", name: "answer_sub", widget: "text" }
+          - { label: "取り組み①タイトル", name: "pillar1_title", widget: "string" }
+          - { label: "取り組み① 対応課題", name: "pillar1_issue", widget: "string" }
+          - { label: "取り組み①（叩き・サイト非表示）", name: "pillar1_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
+          - { label: "取り組み①説明", name: "pillar1_body", widget: "text" }
+          - { label: "取り組み②タイトル", name: "pillar2_title", widget: "string" }
+          - { label: "取り組み② 対応課題", name: "pillar2_issue", widget: "string" }
+          - { label: "取り組み②（叩き・サイト非表示）", name: "pillar2_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
+          - { label: "取り組み②説明", name: "pillar2_body", widget: "text" }
+          - { label: "取り組み③タイトル", name: "pillar3_title", widget: "string" }
+          - { label: "取り組み③ 対応課題", name: "pillar3_issue", widget: "string" }
+          - { label: "取り組み③（叩き・サイト非表示）", name: "pillar3_points", widget: "list", field: { label: "項目", name: "item", widget: "string" }, required: false }
+          - { label: "取り組み③説明", name: "pillar3_body", widget: "text" }
           - { label: "CTA見出し", name: "cta_heading", widget: "text" }
           - { label: "CTA説明文", name: "cta_sub", widget: "text" }
           - { label: "フッターキャッチ", name: "footer_tagline", widget: "string" }
